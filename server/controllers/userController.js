@@ -1,6 +1,8 @@
-import pool from '../db'
+import pool from '../db.js'
 
 //TODO:
+    // catch errors might be wrong in each of the functions on this page
+    // Fix the status numbers for each function both successful and fails need the correct numbers 
     // addFavorite needs to check if 5 fav albums already exist 
     // Each add function needs to actually get the userID from the token
         //(rn i accidently just set userID = token, so that needs to be fixed in all 3 add functions and future functions/routes)
@@ -18,14 +20,16 @@ const addFavorite = async(req,res)=>{
 
     try {
     //get user id from token 
-    const {userID} = req.session.token
-
+   
+    const userName = res.locals.user
     const {albumName} = req.body
 
-    //insert into database
-    const addMovie = await pool.query('INSERT INTO FavFive (userID, albumName) VALUES ($1,$2)', [userID, albumName])
+    //TODO: NEED TO CHECK IF THERE ARE ALREADY 5 ALBUMS!!!
 
-    //return success status
+    //insert into database
+    const addMovie = await pool.query('INSERT INTO FavFive (userName, albumName) VALUES ($1, $2)', [userName, albumName])
+
+  
     res.json({
         status: 201,
         message: 'Album Added to Favorite Five!'
@@ -45,11 +49,10 @@ const addListenList = async(req,res)=>{
 
     try {
   
-        const {userID} = req.session.token
-
+        const userName = res.locals.user
         const {albumName} = req.body
     
-        const addListen = await pool.query('INSERT INTO ListenList (userID, albumName) VALUES ($1,$2)', [userID, albumName])
+        const addListen = await pool.query('INSERT INTO ListenList (userName, albumName) VALUES ($1,$2)', [userName, albumName])
         res.json({
             status: 201,
             message: 'Album added to Listening List'
@@ -67,11 +70,12 @@ const addListenList = async(req,res)=>{
 
 const addReview = async(req,res)=>{
     try {
-        const {userID} = req.sesion.token
-        const {albumName, rating, desc, date} = req.body
+        const userName = res.locals.user
+        console.log(`username in user cont: ${userName}`)
+        const {albumName, rating, userText, addedDate} = req.body
         const newReview = await pool.query(
-            'INSERT INTO Reviews (userID, albumName, rating, desc, date) VALUES($1,$2,$3,$4,$5)'
-            ,[userID, albumName, rating, desc, date])
+            'INSERT INTO Reviews (userName, albumName, rating, userText, addedDate) VALUES($1,$2,$3,$4,$5)'
+            ,[userName, albumName, rating, userText, addedDate])
         res.json({
             status: 201,
             message: 'Review Submitted!'
@@ -91,7 +95,7 @@ const deleteFavorite = async(req,res)=>{
 
     try {
         //! NOT CORRECT CODE 1 LINE BELOW
-        const {userID} = req.session.token 
+        const userID = res.locals.user 
         const {albumName} = req.body
         const dbSearch = await pool.query('DELETE FROM FavoriteFive WHERE userID = $1 AND albumName = $2', [userID, albumName])
         res.json({
@@ -111,7 +115,7 @@ const deleteFavorite = async(req,res)=>{
 const deleteListenList = async(req,res)=>{
     try {
         //! Improper code 1 line below
-        const {userID} = req.session.token
+        const userID = res.locals.user
         const {albumName} = req.body
         const deleteSearch = await pool.query('DELETE FROM ListenList WHERE userID = $1 AND albumName = $2', [userID, albumName])
         res.json({
@@ -129,7 +133,7 @@ const deleteListenList = async(req,res)=>{
 
 const deleteReview = async(req,res)=>{
     try {
-        const {userID} = req.session.token
+        const userID = res.locals.user
         const {albumName} = req.body
         const deleteSearch = await pool.query('DELETE FROM Reviews WHERE userID = $1 AND albumName = $2', [userID, albumName])
         res.json({
@@ -147,7 +151,7 @@ const deleteReview = async(req,res)=>{
 
 const changeReview = async(req,res)=>{
     try {
-        const {userID} = req.session.token
+        const userID = res.locals.user
         const {albumName, rating} = req.body
         const changeSearch = await pool.query('UPDATE Review SET rating = $1 WHERE userID = $2 AND albumName = $3', [rating, userID, albumName])
     } catch (error) {
@@ -159,4 +163,26 @@ const changeReview = async(req,res)=>{
     }
 }
 
-export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview}
+const getUserData = async(req,res) =>{
+    try {
+        const {userID} = res.locals.user
+        const favFiveData = await pool.query('SELECT * FROM FavoriteFive WHERE userID = $1', [userID])
+        const listenListData = await pool.query('SELECT * FROM ListenList WHERE userID = $1', [userID])
+        const reviewData = await pool.query('SELECT * FROM Reviews WHERE userID = $1', [userID])
+        res.json({
+            status: 200,
+            favFiveData,
+            listenListData,
+            reviewData
+        })
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            status: 500,
+            message: error.message
+        })  
+        
+    }
+}
+
+export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData}

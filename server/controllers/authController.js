@@ -1,57 +1,76 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-//import { promisify } from 'util';
-import pool from '../db.js'
+import { promisify } from 'util';
+import pool from '../db.js';
+
 
 const secret = process.env.JWTSECRET || 'testsecret'
 const expires = process.env.JWTEXPIRES || 1000 * 60 * 60
 
-const checkUserExists = async(name, email)=>{
-    const userNameCheck = await pool.query('SELECT * FROM users WHERE userName = $1', [name])
-    const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email])
-    if(userNameCheck.rows.length > 0){
-        return false
-    }
-    if(emailCheck.rows.length>0){
-        return false
-    }
 
-    return true
+//TODO need to recode a way to check if email exists AND if username already exists
+const checkEmailExists = async(email)=>{
+    
+    const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    
+    if(emailCheck.rows.length>0){ //so if a non empty list is returned, that means the user exists
+        return true
+    }
+    return false
+}
+
+
+const checkUserNameExists = async(name)=>{
+    const nameCheck = await pool.query('SELECT * FROM users WHERE userName = $1', [name])
+    if(nameCheck.rows.length > 0){
+        return true
+    }
+    return false
 }
 
 const signUp = async(req,res)=>{
-    console.log('sign')
+
+
+    console.log('sign up function ')
     try {
         const {userName, email, password} = req.body;
-        const userExists = await checkUserExists(userName, email)
-        if(!userExists){
-            throw new Error('Email or username already exists. Please enter a new one')
+        const emailExists = await checkEmailExists(email)
+        const userNameExists = await checkUserNameExists(userName)
+    
+        if(emailExists){
+            throw new Error('Email already exists. Please enter a new one')
         }
+        if(userNameExists){
+            throw new Error('Email is fine but that username exists! Please enter a new one.')
+        }
+
 
         //generete new pass
         const saltRound = 12
         const salt = await bcrypt.genSalt(saltRound)
         const bcryptPassword = await bcrypt.hash(password, salt)
+
+        await pool.query('INSERT INTO users (email, userName, password) VALUES ($1,$2,$3)',[email, userName, bcryptPassword])
         
-        //insert into db
-        const newUserInfo = await pool.query(
-            'INSERT INTO users (userName, email, password) VALUES ($1,$2,$3) RETURNING *'
-            ,[userName, email, bcryptPassword])
-        
-        if(newUserInfo.rows.length <1){
-            throw new Error('User not added. Issue with Database')
-        }
 
         //create new token
-        const token = jwt.sign({userID: newUserInfo.userID}, secret, {
+        const token = jwt.sign({userName: userName}, secret, {
             expiresIn: expires
         })        
-
-        //create session 
   
-        req.session.token = token 
+        //req.session.cookie.token = token
+
+        res.cookie('token', token,{
+            httpOnly: true,
+            secure: false, //!this should be changed to true when in production, fine as false in dev
+            maxAge: 1000*60*60
+        })
+        
+
+        //! PROBS ERROR OCCURING HERE 
         res.json({
-            status: 201
+            status: 201,
+            userName
         })
 
     } catch (error) {
@@ -66,30 +85,39 @@ const signUp = async(req,res)=>{
 
 const logIn = async(req,res)=>{
 
-
-    //TODO need to refine getting the userID from the database to lower the lines of code
-
     try {
-        const {userName, password} = req.body;
-        const userExists = checkUserExists(userName)
+        const {email, password} = req.body;
+        const userExists = await checkEmailExists(email)
+
         if (!userExists){
             throw new Error('User does not exist!')
         }
-        const dbSearch = await pool.query('SELECT password FROM users WHERE userName = $1', [userName])
-        const dbPass = dbSearch.rows[0]
-        const passTest = await bcrypt.compare(password, dbPass.password)
+
+        const dbSearch = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+        const dbPass = dbSearch.rows[0].password
+        const passTest = await bcrypt.compare(password, dbPass)
+
         if(!passTest){
             throw new Error('Invalid Password')
         }
-        const userID = await pool.query('SELECT userID FROM users WHERE userName = $1', [userName])
-        const token = jwt.sign({userID: userID}, secret, {
+
+        const userName = dbSearch.rows[0].username
+        const token = jwt.sign({userName: userName}, secret, {
             expiresIn: expires
         })        
-        req.session.token = token
 
-        res.json({
-            status: 200
+        res.cookie('token', token,{
+            httpOnly: true,
+            secure: false, //!this should be changed to true when in production, fine as false in dev
+            maxAge: 1000*60*60
         })
+
+        //! maybe error here! signup and login needs to send the username back to client i  believe???
+        return res.json({
+            status: 200,
+            userName
+        })
+
     } catch (error) {
         console.log(error)
         return res.json({
@@ -115,15 +143,63 @@ const logOut = async(req,res)=>{
 }
 
 //middleware that runs to verify users
-const restricted = (req,res,next)=>{
-    if(!req.session || !req.session.token){
+    // Basically checking if a session currently exists and if that session has a JWT with it 
+const restricted = async(req,res,next)=>{
+
+        
+    if(!req.cookies || !req.cookies.token){
+        console.log(`no cookie present`)
         return res.json({
             status: 500,
-            message: 'User is not logged/signed in'
+            message: 'User not Auth/logged in'
         })
+        
     }
-    next()
+
+    const token = req.cookies.token
+    const decodedToken = await promisify(jwt.verify)(token, secret)
+    const userName = decodedToken.userName
+    const userExists = checkUserNameExists(userName)
+    try {
+        if (!userExists){
+            throw new Error('User does not Exist!')
+        }
+
+        //res.locals.user = decodedToken.userID       
+        res.locals.user = userName
+        next()
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            status:500,
+            message: error.message
+        })   
+    }
+
+}
+
+//Purpose: Check if a user has valid cookie activated and return their userName
+const isAuth = async(req,res)=>{
+    console.log(`Auth check Occuring Now`)
+    
+    if(!req.cookies || !req.cookies.token){
+        console.log(`no cookie present`)
+        return res.json({
+            status: 500,
+            message: 'User not Auth/logged in'
+        })
+        
+    }
+
+    const token = req.cookies.token
+    const decodedToken = await promisify(jwt.verify)(token, secret)
+    const userName = decodedToken.userName
+    console.log(userName)
+    return res.json({
+        status: 200,
+        userName
+    })
 }
 
 
-export {signUp, logIn, logOut, restricted};
+export {signUp, logIn, logOut, restricted, isAuth};
