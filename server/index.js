@@ -14,7 +14,9 @@ import { addFavorite,
 
     } from './controllers/userController.js';
 
-import { getUserReviews, getUserFavoriteFive, checkUserExists } from './controllers/clientController.js';
+import { getUserReviews, getUserFavoriteFive, checkUserExists, getSpotifyToken, spotifyTest } from './controllers/clientController.js';
+
+import { getLastFMData, getSpotifyAlbums } from './controllers/spotifyController.js';
 
 const app = express()
 app.use(cors({
@@ -74,6 +76,8 @@ app.get('/api/:user/reviews', checkUserExists, getUserReviews)
 app.get('/api/:user/favoritefive', checkUserExists, getUserFavoriteFive)
 
 
+app.get('/api/getalbumpagedata', getLastFMData, getSpotifyAlbums)
+app.get('/api/token', getSpotifyToken)
 
 
 
