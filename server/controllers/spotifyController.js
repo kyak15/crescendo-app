@@ -19,6 +19,10 @@ const getSpotifyToken = async(req,res)=>{
       return spotifyToken.access_token
 }
 
+
+//! Need to discuss faster API Call ?
+//! Need to discuss Calling this function only once from the list of Genres Data 
+//! Optimizing it to less than 2.5 Seconds??
 async function mapJSFunc(currentValue) {
     const spotifyToken = await getSpotifyToken()
    
@@ -35,6 +39,9 @@ async function mapJSFunc(currentValue) {
             if (data.status === 200) {
                 return data;
             }
+            else{
+                throw new Error('Error reaching Spotify Data')
+            }
         })
         .then(data => data.json())
         .then(data => {
@@ -46,16 +53,26 @@ async function mapJSFunc(currentValue) {
                 "albumArt": data.albums.items[0].images[0]
             }
         })
+        .catch(error=>{
+            return res.json({
+                status: error.status,
+                message: error.message
+            })
+        })
 }
 
 
 // function retrieves Spotify IDs of artists and albums to display on Albums Page of Client side
 const getSpotifyAlbums = async(req,res)=>{
-    const spotifyToken = await getSpotifyToken()
+    //const spotifyToken = await getSpotifyToken() //! dont need this code
+    
     const lastData = req.data
     
 
     //* lastData[0]['indie+rock']) THIS GETS US THE GENRE ARRAY OF ALBUM/ARTIST OBJECTS
+
+    //TODO: 
+        //? Despite working, maybe theres a way of only doing this in 1-3 lines rather than 10
 
     let spotData = []    
     const indieRockData = await Promise.all(lastData[0]['indie+rock'].map(mapJSFunc))
@@ -74,12 +91,83 @@ const getSpotifyAlbums = async(req,res)=>{
         status: 200,
         spotData
     })
-
-
 }
 
 
+// gets the search data from the search bar on albums page 
+const getUserSearch = async(req,res)=>{
 
+    //! THIS FUNCTION SHOULD ALSO WORK FOR REQ.PARAM SEARCHES LIKE IN THE URL
+
+
+    try {
+
+        // get spotify token
+        const spotifyToken = await getSpotifyToken()
+
+        //set user search into var
+        //! NEED TO FIGURE OUT HOW TO GET THE ALBUM NAME BEING SEARCHED FOR 
+        const userSearchAlbum = req.body
+        if(!req.params.length > 0){
+            console.log(111)
+
+            
+        }
+
+
+        // fetch a spotify search using the user submitted value 
+
+        const searchFetch = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent
+        (userSearchAlbum.album)}&type=album&limit=10`,{
+            method: 'GET',
+            headers: {
+            'Authorization': `Bearer ${spotifyToken}`,
+            }
+        })
+
+        if(searchFetch.status!== 200){
+            throw new Error('Error Retrieving Data from Spotify API')
+        }
+        
+        const searchData = await searchFetch.json()
+        //! SEARCH BY THIS DATA TYPE = SEARCHDATA.ALBUMS.ITEMS
+
+        const searchArr = await searchData.albums.items.map(album=>{
+            return {
+                artist: album.artists[0].name,
+                artistID: album.artists[0].id,
+                album: album.name,
+                albumID: album.id
+            }
+        })
+
+        //! THIS SENDS THE DATA AS THE FOLLOWING:
+        /*
+                "searchArr": [
+            {
+                "artist": "Nirvana",
+                "artistID": "6olE6TJLqED3rqDCT0FyPh",
+                "album": "Nevermind (Remastered)",
+                "albumID": "2guirTSEqLizK7j9i1MTTZ"
+            },
+            {
+                ETC...
+            }
+        
+        */
+        res.json({
+            searchArr
+        })
+  
+        
+    } catch (error) {
+        console.log(error)
+        res.json({
+            status: 500,
+            message: error.message
+        })
+    }
+}
 
 //Gets the Trending albums of the genres below 
 const getLastFMData = async(req,res, next)=>{
@@ -121,4 +209,7 @@ const getLastFMData = async(req,res, next)=>{
 
 
 
-  export {getSpotifyAlbums, getLastFMData}
+
+
+
+  export {getSpotifyAlbums, getLastFMData, getUserSearch}
