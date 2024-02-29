@@ -1,24 +1,14 @@
 import React from 'react'
 import AlbumPageRate from './AlbumPageRate'
+import TrackPlay from './TrackPlay'
 
 export default function AlbumComp(props){
 
     const tracks = props.album.albumData.tracks.items.map(track=><p>{track.name}</p>)
-    const genres = props.album.artistData.genres.map(genre=><p>{genre},</p>)
-    let hits=[];
+    const genres = props.album.artistData.genres.slice(0,2).map(genre=><p>{genre},</p>)
+
     
-    
 
-    for(let i=0;i<4;i++){
-        hits.push(<div>
-                    <p>{props.album.trackData.tracks[i].name}</p>
-                    
-                    <button>{props.album.trackData.tracks[i].preview_url}</button>
-
-                    
-
-                </div>)
-    }
     
 
     return(
@@ -35,7 +25,7 @@ export default function AlbumComp(props){
                 <div className='album-comp-desc'>
                     <h2>{props.album.albumData.artists[0].name}</h2>   
                     {genres}
-                    {hits}
+                    <TrackPlay hits={props.album.trackData.tracks} />
 
                 </div>
 
