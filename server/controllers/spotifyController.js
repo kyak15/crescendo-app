@@ -1,7 +1,7 @@
 
 const clientID = 'ec6970aaf81e40b988e933b770cb88d5'
 const clientSecret = 'f67c5bcc171a44af94547aa6456a80ad'
-const lastFMURL = 'https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&format=json&limit=20' 
+const lastFMURL = 'https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&format=json&limit=10' 
 const lastFMKey= 'api_key=cc9731b881b69331e019c18c8a635c7e'
 const popularGenres = ['indie+rock','hip-hop', 'pop', 'rnb', 'electronic']
 
@@ -98,6 +98,12 @@ const getSpotifyAlbums = async(req,res)=>{
 const getUserSearch = async(req,res)=>{
 
     //! THIS FUNCTION SHOULD ALSO WORK FOR REQ.PARAM SEARCHES LIKE IN THE URL
+    /*
+        if(!req.params.length > 0){
+            console.log(111)
+        }
+
+    */
 
 
     try {
@@ -108,11 +114,6 @@ const getUserSearch = async(req,res)=>{
         //set user search into var
         //! NEED TO FIGURE OUT HOW TO GET THE ALBUM NAME BEING SEARCHED FOR 
         const userSearchAlbum = req.body
-        if(!req.params.length > 0){
-            console.log(111)
-
-            
-        }
 
 
         // fetch a spotify search using the user submitted value 
@@ -208,8 +209,112 @@ const getLastFMData = async(req,res, next)=>{
 }
 
 
+const getLoneAlbum = async(req,res)=>{
+    try {
+
+        // get the album name from the url params
+        const spotifyToken = await getSpotifyToken()
+        const albumPageName = req.params.album
+        console.log(albumPageName)
+        
+        //search if that album even exists 
+        //! this isnt getting correct results for some albums bc its searching spotify api
+        //! using the album names without spaces in it
+        const userSearchSpotCall = await fetch(`https://api.spotify.com/v1/search?q=${albumPageName}&type=album&limit=1`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${spotifyToken}`,
+            },
+          })
+
+        const userSearchSpotData = await userSearchSpotCall.json()
+
+        if(userSearchSpotData.albums.items.length < 1){
+            throw new Error('Album Doesnt Exist!')
+        }
+
+        const userSpotID = userSearchSpotData.albums.items[0].id
+
+        const userSpotDataCall = await fetch(`https://api.spotify.com/v1/albums/${userSpotID}`,{
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${spotifyToken}`,
+            },
+        })
+
+        if(userSpotDataCall.status!== 200){
+            throw new Error({
+                status: 404,
+                message: 'Album does not exist!'
+            })
+        }
+
+        const userSpotData = await userSpotDataCall.json()
+        
+
+        const artistCall = await fetch(`https://api.spotify.com/v1/artists/${userSpotData.artists[0].id}`,{
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${spotifyToken}`,
+            },
+        }
+        )
+
+        if(artistCall.status!== 200){
+            throw new Error({
+                status: 404,
+                message: 'Artist does not exist!'
+            })
+        }
+
+        const artistData = await artistCall.json()
+        
+
+        // 
+
+        const trackCall = await fetch(`https://api.spotify.com/v1/artists/${userSpotData.artists[0].id}/top-tracks?market=US`,{
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${spotifyToken}`,
+            },
+        })
+
+        if(trackCall.status!==200){
+            throw new Error('Tracks not availble')
+        }
+
+        const trackData = await trackCall.json()
+
+        return res.json({
+            status:200,
+            userSpotData,
+            artistData,
+            trackData
+        })
+
+        
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            status: 404,
+            error: error.message
+        })
+        
+    }
+}
+
+const test = async(req,res)=>{
+    const spotifyToken = await getSpotifyToken()
+    const call = await fetch(`https://api.spotify.com/v1/tracks/0j2T0R9dR9qdJYsB7ciXhf`, {
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+    const data = await call.json()
+    return res.json({
+        data
+    })
+}
 
 
-
-
-  export {getSpotifyAlbums, getLastFMData, getUserSearch}
+  export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, test}

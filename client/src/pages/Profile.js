@@ -1,37 +1,25 @@
 import React from 'react'
-import {useParams, Outlet} from 'react-router-dom'
-import ProfileHeader from '../components/ProfileHeader'
+import {useParams} from 'react-router-dom'
+import ProfileHeader from '../components/ProfileLayout'
 import FavoriteFive from '../components/FavoriteFive'
 
-/*
-- WHAT SHOULD HAPPEN ON THIS PAGE:
-    - DISPLAY THE USERNAME
-    - PROFILE LINKS TO OTHER PAGES
-    - FOLLOWING/FOLLWERS LIST
-    - FAVORITE FIVE
-    - RECENT ACTIVITY
-        - INFORMATION THAT WE NEED FROM THE BACKEND: 
-            FAVFIVE, RECENT REVIEWS, LISTEN LIST FOLLOWING, 
-- PLAN:
-    - im thinking we fetch ALL the user data from the backend
-    - some function on the backend checks if the user even exists 
-        - if it doesnt we redirect the user to a 404 page
-    - then since we have all the data, we use those as props and send them to the components we have in this page 
-*/
 
 export default function Profile(props){
 
-    const id = useParams()
 
-    const [userFavorites, setUserFavorites] = React.useState([])
+    const [userData, setUserData] = React.useState({
+        favFive: '',
+        
+    })
 
-    /* useEffect needs to get the following:
-        - is the username valid in our db?
-        -Favorite five  
-    */
+    const id = useParams().user
+
+  
+
+
     React.useEffect(()=>{
         async function getUserFavorites(){
-            const dataCall = await fetch(`http://localhost:8000/api/${id.user}/favoritefive`,{
+            const favFiveCall = await fetch(`http://localhost:8000/api/${id.user}/favoritefive`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -39,25 +27,43 @@ export default function Profile(props){
               },
             })
 
-            const data = await dataCall.json()
-       
-            if(data.status!==200){
-                console.log('error getting user reviews')
-            }
+            const favData = await favFiveCall.json()
 
-            setUserReviews(data.userReview)
+            //TODO: Straigten out backend code for getting reviews
+                //TODO: Might not even want the user reviews on this page so TBD
+            /*
+            const reviewCall = await fetch(`http://localhost:8000/api/${id.user}/reviews`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                  "Content-Type": "application/json"
+              },
+              
+            })
+
+            const reviewData = reviewCall.json()
+            */
+
+        
+       
+            if(favData.status!==200){
+                console.log('error getting user reviews')
+                setUserData(null)
+            }else{
+                setUserData({favFive: favData.favoriteData})
+            }
         }
        getUserFavorites()
     },[])
 
     return(
-        <div className='profile-container'>
-            <div className='user-info-container'>
-                <h3>{id.user}</h3>
-                <p>{`User has ${userReviews.length} Reviews`}</p>
+        <div className='user-page-container'>
+            <h2>{id}</h2>
+            <div className='fav-container'>
+                
+
             </div>
-            <ProfileHeader/>
-            <FavoriteFive user={id.user} userFavorites={userFavorites}/>
+
         </div>
     )
 }

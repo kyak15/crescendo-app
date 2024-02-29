@@ -6,10 +6,14 @@ import Home from './pages/Home'
 //import UserPage from './pages/UserPage'
 
 import UserListenList from './pages/UserListenList'
-import UserReviews from './pages/UserReviews'
+
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile';
 import LogIn from './pages/LogIn';
+import AlbumsPage from './pages/AlbumsPage';
+import LoneAlbumPage from './pages/LoneAlbumPage';
+import ProfileHeader from './components/ProfileHeader';
+import UserReviewPage from './pages/UserReviewPage';
 
 //TODO: Need to figure out how to incorporate user auth bc idt putting it in state works??
 
@@ -53,16 +57,20 @@ export default function App(){
           <Route index path='/' element={<Home  user = {user}/>}/>
           <Route path='signup' element={<SignUp user={user} setUser ={setUser}/>}/>
           <Route path='login' element={<LogIn/>} />
-          <Route path='albums' element={<h1>album page</h1>}/>
-          <Route path='albums/:albumname'/>
+          <Route path='albums' element={<AlbumsPage/>}/>
+          <Route path='albums/:album' element={<LoneAlbumPage/>} />
         
 
 
-        <Route path='user/:user/' element={<Profile user={user}/>}/>
-        <Route path='user/:user/reviews' element={<UserReviews/>}/>
-        <Route path='user/:user/listenlist' element={<UserListenList/>}/>
+        <Route element={<ProfileHeader />}>
+          <Route index path='user/:user/' element={<Profile user={user}/>}/> 
+          <Route path='user/:user/reviews' element={<UserReviewPage/>}/>
+          <Route path='user/:user/listenlist' element={<UserListenList/>}/>
+        </Route>
 
-        
+        {/*
+          Route for when user clicks any album on a user page goes to their review
+        */}
 
         </Route>
       </Routes>

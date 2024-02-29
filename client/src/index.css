@@ -26,6 +26,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #242526;
 }
 ol, ul {
 	list-style: none;
@@ -47,24 +48,200 @@ table {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  border: 3px solid blue;
   height: 70px;
-  width: 1;
+  width: 100%;
+  background-color: #18191a;
 }
 
 .logo-header-layout{
   font-size: 45px;
   text-decoration: none;
   
-  
+  color: white;
 }
 
 .links-header-layout{
-  font-size: 32px;
+  font-size: 24px;
   text-decoration: none;
   margin-left: 320px;
-  
-
+  color: white;
+  font-family: verdana;
 }
 
 
+
+
+/*ALBUMS PAGE STYLING START*/
+
+.albums-page-container{
+	margin-left: 5rem;
+	margin-right: 5rem;
+	margin-top: 3rem;
+	border: solid red 3px;
+}
+
+.albums-page-title{
+	color: white;
+	font-size: 32px;
+	font-family: monospace;
+}
+
+.albums-page-genres-container{
+	margin-top: 2rem;
+	border: 3px solid blue;
+	
+	
+}
+
+.genre-container{
+	display: flex;
+	
+	flex-wrap: wrap;
+
+
+}
+
+.genre-container-title{
+	font-family: monospace;
+	color: white;
+	font-size: 24px;
+	margin-bottom: 40px;
+	margin-left: 4rem;
+	border-bottom: solid 2px white;
+}
+
+.genres-container-bundle{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;	
+}
+
+.album-card-container{
+	width: 225px;
+	height: 250px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	flex-wrap: nowrap;
+	font-size: 20px;
+	margin: 1rem;
+	
+	color: white;
+	text-align: center;
+}
+
+.album-card-container img{
+	width: 150px;
+	height: 150px;
+	
+}
+
+
+
+
+/*LONE ALBUM STYLING*/
+
+.lone-album-container{
+	margin-left: 5rem;
+	margin-right: 5rem;
+	margin-top: 3rem;
+	color: white;
+	height: 100vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif
+	
+	
+}
+
+.album-comp-container{
+	
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	height: 60%;
+	
+}
+
+.album-comp-image{
+	width: 33%;
+}
+
+.album-comp-image h2{
+	font-size: 24px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	text-decoration: solid;
+}
+
+.album-comp-image p{
+	margin-top: 10px;
+}
+
+.album-comp-container img{
+	width: 400px;
+	height: 400px;
+	border: black 2px solid;
+}
+
+.album-comp-desc{
+	border: 3px solid orange;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	
+	width: 33%;
+}
+
+.album-comp-desc h2{
+	font-size: 3em;
+	margin-bottom: 30px;
+	
+}
+
+.album-comp-desc p{
+	font-size: 1.5rem;
+	margin-top: 5px;
+}
+
+.album-comp-interact{
+	width: 33%;
+	display: flex;
+	justify-content: center;
+	
+}
+
+
+
+
+
+/*POPUP STYLING*/
+
+.popup{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 50%;
+	height: 500px;
+	background: grey;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.popup-inner{
+	position: relative;
+	padding: 32px;
+	width: 100%;
+	max-width: 640px;
+	height: 70%;
+	background-color: white;
+}
+
+.popup-inner button{
+	position: absolute;
+	top: 16px;
+	right: 16px;
+
+}

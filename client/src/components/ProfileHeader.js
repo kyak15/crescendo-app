@@ -1,22 +1,28 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams, Outlet } from 'react-router-dom'
 
 export default function ProfileHeader(){
+
+    const id = useParams().user
+    
     return(
-        <div className='profile-header-container' >
 
-             <NavLink to='.'>
+        <div className='profile-layout-container'>
+
+            <NavLink to={`user/${id}/`} >
                 Profile
-             </NavLink>
+            </NavLink>
 
-             <NavLink to='reviews'>
+            <NavLink to={`user/${id}/reviews`}>
                 Reviews
-             </NavLink>
+            </NavLink>
 
-            <NavLink to='listenlist'>
+            <NavLink to={`user/${id}/listenlist`}>
                 Listen List
             </NavLink>
-            
+
+            <Outlet/>
         </div>
+        
     )
 }
