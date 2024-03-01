@@ -27,7 +27,7 @@ export default function AlbumComp(props){
                 </div>
 
                 <div className='album-comp-interact'>
-                    //TODO: NEED TO CONDITIONALY RENDER CORRECT PROP DEPENDING IF USER IS TRUE OR FALSE
+                    
 
                     {!props.user?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
 
