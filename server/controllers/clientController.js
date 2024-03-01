@@ -37,7 +37,7 @@ const getUserReviews = async(req,res)=>{
 const getUserFavoriteFive = async(req, res) =>{
     const userName = res.locals.user
     const userDataCall = await pool.query('SELECT * FROM FavFive WHERE userName = $1', [userName])
-    const favoriteData = userDataCall.rows
+    const avoriteData = userDataCall.rows
     res.json({
         status: 200,
         favoriteData
