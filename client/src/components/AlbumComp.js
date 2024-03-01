@@ -8,7 +8,7 @@ export default function AlbumComp(props){
     const tracks = props.album.albumData.tracks.items.map(track=><p>{track.name}</p>)
     const genres = props.album.artistData.genres.slice(0,2).map(genre=><p>{genre},</p>)
 
-    console.log(props.user)
+    
     return(
         <div className='album-comp-container'>
 
