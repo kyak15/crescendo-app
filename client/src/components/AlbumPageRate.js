@@ -1,7 +1,7 @@
 import React from 'react'
 import ReviewPopup from './ReviewPopup'
 
-export default function AlbumPageRate(){
+export default function AlbumPageRate(props){
 
     const [reviewPP, setReviewPP] = React.useState(false)
 
@@ -16,7 +16,7 @@ export default function AlbumPageRate(){
             <div className='add-review-container'>
                 <h3>Review Album</h3>
                 <button onClick={()=>setReviewPP(true)}>Add new Review</button>
-                <ReviewPopup setTrigger={setReviewPP} trigger={reviewPP}>
+                <ReviewPopup setTrigger={setReviewPP} trigger={reviewPP} data={props.data}>
                     <h1>my popup</h1>
                 </ReviewPopup>
             </div>

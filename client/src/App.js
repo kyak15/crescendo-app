@@ -36,7 +36,7 @@ export default function App(){
       console.log(dataCheck.userName)
   
       if(dataCheck.status !== 200){
-        setUser(false)
+        setUser(null)
         setLoading(false)
       }
       else{
@@ -58,7 +58,7 @@ export default function App(){
           <Route path='signup' element={<SignUp user={user} setUser ={setUser}/>}/>
           <Route path='login' element={<LogIn/>} />
           <Route path='albums' element={<AlbumsPage/>}/>
-          <Route path='albums/:album' element={<LoneAlbumPage/>} />
+          <Route path='albums/:album' element={<LoneAlbumPage user={user} />} />
         
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import AlbumComp from '../components/AlbumComp';
 
-export default function LoneAlbumPage(){
+export default function LoneAlbumPage(props){
 
     const [album, setAlbum] = React.useState(null)
 
@@ -47,7 +47,7 @@ export default function LoneAlbumPage(){
     if(album){
         return(
             <div className='lone-album-container'>
-                <AlbumComp album={album}/>
+                <AlbumComp album={album} user={props.user}/>
             </div>
         )
     }

@@ -1,16 +1,14 @@
 import React from 'react'
 import AlbumPageRate from './AlbumPageRate'
 import TrackPlay from './TrackPlay'
+import AlbumPageSignUp from './AlbumPageSignUp'
 
 export default function AlbumComp(props){
 
     const tracks = props.album.albumData.tracks.items.map(track=><p>{track.name}</p>)
     const genres = props.album.artistData.genres.slice(0,2).map(genre=><p>{genre},</p>)
 
-    
-
-    
-
+    console.log(props.user)
     return(
         <div className='album-comp-container'>
 
@@ -26,11 +24,14 @@ export default function AlbumComp(props){
                     <h2>{props.album.albumData.artists[0].name}</h2>   
                     {genres}
                     <TrackPlay hits={props.album.trackData.tracks} />
-
                 </div>
 
                 <div className='album-comp-interact'>
-                    <AlbumPageRate/>
+                    //TODO: NEED TO CONDITIONALY RENDER CORRECT PROP DEPENDING IF USER IS TRUE OR FALSE
+
+                    {!props.user?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
+
+        
                 </div>
         
         </div>
