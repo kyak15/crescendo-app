@@ -2,10 +2,14 @@ import React from 'react'
 
 export default function ReviewPopup(props){
 
-    const [reviewText, setReviewText] = React.useState('')
+    
     const [reviewData, setReviewData] = React.useState({
+
         albumID: '',
         artistID: '',
+        albumName: '',
+        artistName: '',
+        albumArt: '',
         rating: '',
         text:'',
         date: new Date()
@@ -13,7 +17,15 @@ export default function ReviewPopup(props){
 
     async function handleSubmit(e){
         e.preventDefault()
-        setReviewData({...reviewData, albumID: props.data.id, artistID: props.data.artists[0].id})
+
+        setReviewData({
+            ...reviewData, 
+            albumID: props.data.id, 
+            artistID: props.data.artists[0].id,
+            albumName: props.data.name,
+            artistName: props.data.artists[0].name,
+            albumArt: props.data.images[0].url
+        })
         const body = reviewData
         const finalBody = JSON.stringify(body)
         console.log(`final: ${finalBody}`)

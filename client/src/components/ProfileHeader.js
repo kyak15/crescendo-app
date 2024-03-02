@@ -8,18 +8,20 @@ export default function ProfileHeader(){
     return(
 
         <div className='profile-layout-container'>
+            <div className='profile-layout-nav'>
 
-            <NavLink to={`user/${id}/`} >
-                Profile
-            </NavLink>
+                <NavLink to={`user/${id}/`} >
+                    Profile
+                </NavLink>
 
-            <NavLink to={`user/${id}/reviews`}>
-                Reviews
-            </NavLink>
+                <NavLink to={`user/${id}/reviews`}>
+                    Reviews
+                </NavLink>
 
-            <NavLink to={`user/${id}/listenlist`}>
-                Listen List
-            </NavLink>
+                <NavLink to={`user/${id}/listenlist`}>
+                    Listen List
+                </NavLink>
+            </div>
 
             <Outlet/>
         </div>
