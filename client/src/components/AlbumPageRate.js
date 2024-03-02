@@ -17,6 +17,7 @@ export default function AlbumPageRate(props){
             albumArt: props.data.images[0].url
         }
         const finalBody = JSON.stringify(body)
+        
         const addListenCall = await fetch(`http://localhost:8000/api/addfavorite/`,{
             method: 'POST',
             credentials: 'include',
