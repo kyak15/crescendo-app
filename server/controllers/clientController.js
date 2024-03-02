@@ -10,12 +10,14 @@ const clientSecret = 'f67c5bcc171a44af94547aa6456a80ad'
 
 const checkUserExists = async(req,res,next) =>{
     const userName = req.params.user
+    console.log(userName)
     const userNameCheck = await pool.query('SELECT * FROM users WHERE userName = $1',[userName])
     const userNameData = userNameCheck.rows[0] //* Sets the var to the information from SQL injection
     
     if(!userNameData){ //* SQL Search checks if null data or if data exists 
         return res.json({
-            status: 404
+            status: 404,
+            message: 'User Does not Exist!'
         })
     }
 
@@ -28,16 +30,24 @@ const getUserReviews = async(req,res)=>{
     const userName = res.locals.user
     const userDataCall = await pool.query('SELECT * FROM reviews WHERE userName = $1', [userName])
     const userReview = userDataCall.rows // This is the i2
+
+    //TODO needs to call spotify api for album information 
+
     res.json({
         status: 200,
         userReview
     })
 }
 
-const getUserFavoriteFive = async(req, res) =>{
+const getUserFavoriteFive = async(req, res, next) =>{
     const userName = res.locals.user
     const userDataCall = await pool.query('SELECT * FROM FavFive WHERE userName = $1', [userName])
     const favoriteData = userDataCall.rows
+    res.locals.favoriteData = favoriteData
+    
+
+    //TODO needs to call spotify api for album information 
+
     res.json({
         status: 200,
         favoriteData
