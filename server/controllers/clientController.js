@@ -26,17 +26,25 @@ const checkUserExists = async(req,res,next) =>{
 }
 
 const getUserReviews = async(req,res)=>{
-  
-    const userName = res.locals.user
-    const userDataCall = await pool.query('SELECT * FROM reviews WHERE userName = $1', [userName])
-    const userReview = userDataCall.rows // This is the i2
 
-    //TODO needs to call spotify api for album information 
-
-    res.json({
-        status: 200,
-        userReview
-    })
+    try {
+        const userName = res.locals.user
+        const userDataCall = await pool.query('SELECT * FROM reviews WHERE userName = $1', [userName])
+        const userReviews = userDataCall.rows // This is the i2
+    
+        res.json({
+            status: 200,
+            userReviews
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.json({
+            status: 500,
+            message: 'internal error'
+        })
+        
+    }
 }
 
 const getUserFavoriteFive = async(req, res, next) =>{
@@ -54,5 +62,27 @@ const getUserFavoriteFive = async(req, res, next) =>{
     })
 }
 
+const getUserListenList = async(req,res)=>{
+    try {
+        const userName = res.locals.user
+        const listenDataCall = await pool.query('SELECT * FROM ListenList WHERE userName = $1', [userName])
+        const listenListData = listenDataCall.rows
 
-export { getUserFavoriteFive, getUserReviews, checkUserExists}
+        return res.json({
+            status: 200,
+            listenListData
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.json({
+            status: 500,
+            message: 'Internal Failure of some sort'
+        })
+        
+    }
+
+}
+
+
+export { getUserFavoriteFive, getUserReviews, checkUserExists, getUserListenList}
