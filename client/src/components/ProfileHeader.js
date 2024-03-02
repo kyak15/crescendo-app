@@ -22,7 +22,6 @@ export default function ProfileHeader(){
                     Listen List
                 </NavLink>
             </div>
-
             <Outlet/>
         </div>
         
