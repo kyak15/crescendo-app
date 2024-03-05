@@ -1,0 +1,146 @@
+*{
+    font-family: inter
+}
+
+.home-container{
+    height: 100vh;
+    background: linear-gradient(to bottom, black, #242526 10%);
+    
+   
+}
+
+.home-title-container{
+    background-size: cover;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    background-position: center;
+    position: relative;
+    text-align: center;
+    background-attachment:fixed;
+    background-color:#242526;
+    background-image: linear-gradient(to bottom, rgba(255,153,153,0) 0%,#242526 75%,#242526 100%), url('images/ti.jpeg');
+    background-position:top center;
+    background-repeat:no-repeat;
+    background-size:100% auto;
+}
+
+.home-title-container a{
+    text-align: center;
+    font-size: 30px;
+    background-color: #c66375;
+    width: 20%;
+    height: 5%;
+    font-family: #cc905c;
+    border: none;
+    margin-top: 1.5%;
+    margin-bottom: 1%;
+    color: white;
+    text-decoration: none;
+    
+}
+
+.home-title-container a:hover{
+    background-color: white;
+    color: black;
+}
+
+
+.first-title{
+    margin-top: 10%;
+}
+
+.home-features-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 5%;
+    margin-right: 5%;
+    
+}
+
+.feature-title{
+    font-size: 30px;
+    color: white;
+}
+
+.feature-container{
+    border: solid #c66375 4px;
+    background-color: #8d9cd3;
+    width: 25%;
+    height: 150px;
+    margin-bottom: 3%;
+    margin-top: 2%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+}
+
+.feature-container p{
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.icon{
+    margin-left: 1rem;
+}
+
+.feature-container:hover{
+    background-color: #74aaa7;
+    color: black;
+    border: 4px solid white;
+}
+
+
+
+.home-popular-container{
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.popular-title{
+    color: white;
+    font-size: 60px;
+}
+
+.popular-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.album-container{
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+}
+
+.album-container img{
+    width: 250px;
+    height: 250px;
+    border: 3px solid black;
+}
+
+.album-container img:hover{
+    width: 250px;
+    height: 250px;
+    border: 3px solid #c66375;;
+}
+
