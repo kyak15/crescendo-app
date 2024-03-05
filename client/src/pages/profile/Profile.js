@@ -29,7 +29,7 @@ export default function Profile(props){
             const favData = await favFiveCall.json()
             
             if(favData.status===404){
-                return console.log(favData.message)
+                return setUserData(null)
             }
             //! NEED TO PROBABALY CREATE SOMETHING ELSE IF USER DOESNT HAVE FAV SET
 
@@ -66,7 +66,11 @@ export default function Profile(props){
 
     
     
-    console.log(userData.reviewData)
+    if(userData === null){
+        return(<div>
+            <h3>That user does not exist</h3>
+        </div>)
+    }
 
     return(
         <div className='user-page-container'>
