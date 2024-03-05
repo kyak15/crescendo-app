@@ -128,17 +128,11 @@ const logIn = async(req,res)=>{
 }
 
 const logOut = async(req,res)=>{
-    req.session.destroy(err =>{
-        if(err){
-            console.log(err)
-            return res.json({status: 500})
-        }else{
-            res.clearCookie('cookie')
-            res.json({
-                status:200
-            })
-        }
-    })
+
+    if(req.cookies){
+        res.clearCookie('token')
+        return res.json({status:200})
+    }
 
 }
 

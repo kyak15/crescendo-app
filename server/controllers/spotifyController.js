@@ -209,17 +209,16 @@ const getLastFMData = async(req,res, next)=>{
 }
 
 
+
 const getLoneAlbum = async(req,res)=>{
     try {
 
         // get the album name from the url params
         const spotifyToken = await getSpotifyToken()
         const albumPageName = req.params.album
-        console.log(albumPageName)
+        
         
         //search if that album even exists 
-        //! this isnt getting correct results for some albums bc its searching spotify api
-        //! using the album names without spaces in it
         const userSearchSpotCall = await fetch(`https://api.spotify.com/v1/search?q=${albumPageName}&type=album&limit=1`, {
             method: 'GET',
             headers: {
@@ -249,9 +248,11 @@ const getLoneAlbum = async(req,res)=>{
             })
         }
 
+    
         const userSpotData = await userSpotDataCall.json()
         
 
+        //gets the artist data
         const artistCall = await fetch(`https://api.spotify.com/v1/artists/${userSpotData.artists[0].id}`,{
             method: 'GET',
             headers: {
@@ -270,8 +271,7 @@ const getLoneAlbum = async(req,res)=>{
         const artistData = await artistCall.json()
         
 
-        // 
-
+        // gets the popular tracks
         const trackCall = await fetch(`https://api.spotify.com/v1/artists/${userSpotData.artists[0].id}/top-tracks?market=US`,{
             method: 'GET',
             headers: {
@@ -303,18 +303,92 @@ const getLoneAlbum = async(req,res)=>{
     }
 }
 
-const test = async(req,res)=>{
+
+
+const getHomeAlbums = async(req,res)=>{
     const spotifyToken = await getSpotifyToken()
-    const call = await fetch(`https://api.spotify.com/v1/tracks/0j2T0R9dR9qdJYsB7ciXhf`, {
+    //albums: TPAB, DSOTM, Discovery, Is this it, abbey road, thriller, rumors, nevermind, lauren hill, 
+    // back to black
+
+    let homeData = []
+
+    const beatlesCall = await fetch(`https://api.spotify.com/v1/search?q=abbeyroad&type=album&limit=1`, {
+        method: 'GET',
         headers: {
           'Authorization': `Bearer ${spotifyToken}`,
         },
       })
-    const data = await call.json()
+
+    const kendrickCall = await fetch(`https://api.spotify.com/v1/search?q=topimpabutterfly&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+    
+      const floydCall = await fetch(`https://api.spotify.com/v1/search?q=The dark side of the moon&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+
+      const amyCall = await fetch(`https://api.spotify.com/v1/search?q=backtoblack&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+
+    const laurenCall = await fetch(`https://api.spotify.com/v1/search?q=miseducationoflaurenhill&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+
+      const fleetCall = await fetch(`https://api.spotify.com/v1/search?q=rumours&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+
+
+    const strokeCall = await fetch(`https://api.spotify.com/v1/search?q=isthisit&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+    
+      const daftCall = await fetch(`https://api.spotify.com/v1/search?q=discovery&type=album&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${spotifyToken}`,
+        },
+      })
+
+    const beatlesData = homeData.push(await beatlesCall.json())
+
+    const kendrickData = homeData.push(await kendrickCall.json())
+    const floydData = homeData.push(await floydCall.json())
+    const amyData = homeData.push(await amyCall.json())
+    const laurenData = homeData.push(await laurenCall.json())
+    const fleetData = homeData.push(await fleetCall.json())
+    const strokeData = homeData.push(await strokeCall.json())
+    const daftData = homeData.push(await daftCall.json())
+
     return res.json({
-        data
+        status: 200,
+        homeData
     })
+
+
+
+
 }
 
 
-  export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, test}
+
+  export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, getHomeAlbums}

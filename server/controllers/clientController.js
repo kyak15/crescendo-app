@@ -84,5 +84,24 @@ const getUserListenList = async(req,res)=>{
 
 }
 
+const getAlbumReviews = async(req,res)=>{
+    try {
+        const albumName = req.params.album
+        
+        
+        
+        const dataCall = await pool.query('SELECT * FROM reviews WHERE albumname = $1', [albumName])
+        
+        return res.json({
+            status:200,
+            data: dataCall.rows
+        })
 
-export { getUserFavoriteFive, getUserReviews, checkUserExists, getUserListenList}
+        
+    } catch (error) {
+        
+    }
+}
+
+
+export { getUserFavoriteFive, getUserReviews, checkUserExists, getUserListenList, getAlbumReviews}

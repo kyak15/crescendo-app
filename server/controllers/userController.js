@@ -21,8 +21,10 @@ const addFavorite = async(req,res)=>{
     try {
     //get user id from token 
    
+
+
     const userName = res.locals.user
-    const {albumID, artistID} = req.body
+    const {albumID, artistID, albumName, artistName, albumArt} = req.body
 
     const userFavCall = await pool.query('SELECT * FROM FavFive WHERE userName = $1',[userName])
     const userFavData = userFavCall.rows
@@ -35,7 +37,7 @@ const addFavorite = async(req,res)=>{
     }
 
     //insert into database
-    const addMovie = await pool.query('INSERT INTO FavFive (userName, albumID, artistID) VALUES ($1, $2, $3)', [userName, albumID, artistID])
+    const addMovie = await pool.query('INSERT INTO FavFive (userName, albumID, artistID, albumName, artistName, albumArt) VALUES ($1, $2, $3, $4, $5, $6)', [userName, albumID, artistID, albumName, artistName, albumArt])
 
   
     res.json({
@@ -57,17 +59,16 @@ const addListenList = async(req,res)=>{
 
     try {
   
-        /*
-            listenID SERIAL PRIMARY KEY,
-    userName VARCHAR(255) REFERENCES users(userName) on DELETE CASCADE,
-    albumID VARCHAR(255) NOT NULL,
-    artistID VARCHAR(255) NOT NULL,
-    addedData DATE NOT NULL*/
+
 
         const userName = res.locals.user
-        const {albumID, artistID, date} = req.body
+        const {albumID, artistID, albumName, artistName, albumArt, date} = req.body
+
+
     
-        const addListen = await pool.query('INSERT INTO ListenList (userName, albumID, artistID, addedData) VALUES ($1,$2,$3,$4)', [userName, albumID, artistID, date])
+        const addListen = await pool.query(
+            'INSERT INTO ListenList (userName, albumID, artistID, albumName, artistName, albumArt, addedData) VALUES ($1,$2,$3,$4,$5,$6,$7)', 
+            [userName, albumID, artistID, albumName, artistName, albumArt, date])
         res.json({
             status: 201,
             message: 'Album added to Listening List'
@@ -87,20 +88,24 @@ const addReview = async(req,res)=>{
     try {
 
         /*
-                albumID: '',
+          albumID: '',
         artistID: '',
+        albumName: '',
+        artistName: '',
+        albumArt: '',
         rating: '',
         text:'',
         date: new Date()
+        })
         */
 
         const userName = res.locals.user
-        console.log(`username in user cont: ${userName}`)
-        const {albumID, artistID, rating, text, date} = req.body
+        
+        const {albumID, artistID, albumName, artistName, albumArt, rating, text, date} = req.body
 
         const newReview = await pool.query(
-            'INSERT INTO Reviews (userName, albumID, artistID, rating, userText, addedDate) VALUES($1,$2,$3,$4,$5,$6)'
-            ,[userName, albumID, artistID, rating, text, date])
+            'INSERT INTO Reviews (userName, albumID, artistID, albumName, artistName, albumArt, rating, userText, addedDate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)'
+            ,[userName, albumID, artistID, albumName, artistName, albumArt, rating, text, date])
         res.json({
             status: 201,
             message: 'Review Submitted!'
