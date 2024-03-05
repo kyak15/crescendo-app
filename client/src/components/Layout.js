@@ -7,6 +7,7 @@ export default function Layout(props){
         <div>
             <Header user={props.user} />
             <Outlet/>
+            
         </div>
 
     )

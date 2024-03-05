@@ -1,7 +1,26 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom'
+
 
 export default function Header(props){
+    const navigate = useNavigate()
+
+    async function handleLogout(){
+        const logCall = await fetch(`http://localhost:8000/logout/`,{
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json"
+          },
+        })
+
+        const logData = await logCall.json()
+        if(logData.status===200){
+            navigate('/')
+            return window.location.reload()
+        }
+
+    }
 
 
 
@@ -13,6 +32,7 @@ export default function Header(props){
             <NavLink className='links-header-layout' to='signup'>Sign Up</NavLink>}
             {props.user?<NavLink className='links-header-layout' to={`/user/${props.user}`} >Profile</NavLink>:
             <NavLink className='links-header-layout' to='login'>Log In</NavLink>}
+            {props.user?<NavLink onClick={handleLogout} className='links-header-layout'>Logout</NavLink>:null}
         </div>
     )
 }

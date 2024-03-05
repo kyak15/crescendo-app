@@ -2,18 +2,15 @@ import React from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Cookies from 'js-cookie';
 import Layout from './components/Layout'
-import Home from './pages/Home'
-//import UserPage from './pages/UserPage'
-
-import UserListenList from './pages/UserListenList'
-
-import SignUp from './pages/SignUp'
-import Profile from './pages/Profile';
-import LogIn from './pages/LogIn';
-import AlbumsPage from './pages/AlbumsPage';
-import LoneAlbumPage from './pages/LoneAlbumPage';
+import Home from './pages/home/Home';
+import UserListenList from './pages/profile/UserListenList'
+import SignUp from './pages/signup/SignUp'
+import Profile from './pages/profile/Profile';
+import LogIn from './pages/login/LogIn';
+import AlbumsPage from './pages/AlbumsPage/AlbumsPage';
+import LoneAlbumPage from './pages/LoneAlbumPage/LoneAlbumPage';
 import ProfileHeader from './components/ProfileHeader';
-import UserReviewPage from './pages/UserReviewPage';
+import UserReviewPage from './pages/profile/UserReviewPage';
 
 //TODO: Need to figure out how to incorporate user auth bc idt putting it in state works??
 
