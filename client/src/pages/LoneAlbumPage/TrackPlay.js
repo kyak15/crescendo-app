@@ -41,6 +41,7 @@ export default function TrackPlay(props){
     function toggleSong(song){
         if(!playing){
             const mp3 = tracksMP3.filter(item=>{
+                
                 if(item.title ===song){
                     return item.mp3
                 }
@@ -62,6 +63,7 @@ export default function TrackPlay(props){
     }
 
     const trackPieces = props.hits.slice(0,5).map(song=>{
+        console.log(song.preview_url)
         if(song.preview_url!==null){
             return(
                 <div onClick={e=>toggleSong(song.name)}  className='trackplay-song-container'>
@@ -87,7 +89,7 @@ export default function TrackPlay(props){
             {
    
 
-            trackPieces[1]!==null?trackPieces
+            trackPieces[0]!==null?trackPieces
             :(<div>
                 <p>The artist does not provide sample tracks</p>
             </div>

@@ -2,17 +2,33 @@
 /*LONE ALBUM STYLING*/
 
 .lone-album-container{
+	display: flex;
+	flex-direction: column;
+	
+}
+
+.album-stuff{
 	margin-left: 5rem;
 	margin-right: 5rem;
 	margin-top: 3rem;
 	color: black;
 	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	
+}
+
+.album-stuff-users{
+	text-align: center;
+	margin-left: 5rem;
+	margin-right: 5rem;
+
 }
 
 .album-comp-container{
 	
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	height: 60%;
@@ -130,15 +146,16 @@
     align-items: center;
     text-align: center;
     font-size: 2.5em;
-    color: #242526;
+    color: white;
 }
 
 
 
 .signup-comp-container a{
+	
     margin-top: 5%;
     text-decoration: none;
-    color:#242526;
+    color:white;
 }
 
 .signup-comp-container a:hover{
