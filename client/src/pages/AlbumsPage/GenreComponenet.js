@@ -13,27 +13,26 @@ export default function GenreComponent(props){
                 "albumArt": data.albums.items[0].images[0]
     */
 
-    const el = props.trendingData.map(item=>{
+
+
+    const genreElements = props.trendingData[0].map(item=>{
+        
         //<NavLink to={`/albums/${encodeURIComponent(albumName)}`}>
         
         return(
             <div className='album-card-container'>
-                <NavLink to={item.albumName} ><img src={item.albumArt.url}/></NavLink>
-                
-                <h2>{item.artist}</h2>
-                <h3>{item.albumName}</h3>
+                <NavLink to={item.albumName} ><img src={item.albumArt['url']}/></NavLink>
+                <h3>{item.artist}</h3>
+                <h4>{item.albumName}</h4> 
             </div>
         )
-
     })
 
     return(
-        <div className='genre-comp-container'>
-            <h2 className='genre-container-title'>{props.genre}</h2>
-            <div className='genres-container-bundle'>
-                {el}
+    
+            <div className='genre-container'>
+                {genreElements}
             </div>
           
-        </div>
     )
 }

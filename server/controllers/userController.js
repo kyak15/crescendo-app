@@ -1,28 +1,8 @@
 import pool from '../db.js'
 
-//TODO:
-    // catch errors might be wrong in each of the functions on this page
-    // Fix the status numbers for each function both successful and fails need the correct numbers 
-    // addFavorite needs to check if 5 fav albums already exist 
-    // Each add function needs to actually get the userID from the token
-        //(rn i accidently just set userID = token, so that needs to be fixed in all 3 add functions and future functions/routes)
-        //? const decoded = await promisify(jwt.verify)(token, secret) is the code but IDK if i should put it in the restricted auth function
-        //? or keep it in each route function? 
-        //? if i put it in restricted middleware, i should set req.locals.userID = await promisify
-            //? .locals allows the passing of data from middleware to route handlers (according to chatGPT lol)
-    // need to figure out how im going to get data like album name and rating, etc from the front end bc rn im using req.body
-        // this is in all 3 functions rn 
-    //? In each of the ADD routes, maybe we send back to info from the SQL entry (specifically the id)
-        //? that way on the front end, those components hold the ids making it easier to delete and not havign to always use the userID
-        //? in SQL inqueries??
-
 const addFavorite = async(req,res)=>{
 
     try {
-    //get user id from token 
-   
-
-
     const userName = res.locals.user
     const {albumID, artistID, albumName, artistName, albumArt} = req.body
 
@@ -57,15 +37,13 @@ const addFavorite = async(req,res)=>{
 
 const addListenList = async(req,res)=>{
 
+
+    //! Need to recreate database to make sure each albumID is Unique
+        //! purpose: prevent duplicates - must be done for favfive and reviews(might be different)
     try {
-  
-
-
         const userName = res.locals.user
         const {albumID, artistID, albumName, artistName, albumArt, date} = req.body
 
-
-    
         const addListen = await pool.query(
             'INSERT INTO ListenList (userName, albumID, artistID, albumName, artistName, albumArt, addedData) VALUES ($1,$2,$3,$4,$5,$6,$7)', 
             [userName, albumID, artistID, albumName, artistName, albumArt, date])
@@ -86,19 +64,6 @@ const addListenList = async(req,res)=>{
 
 const addReview = async(req,res)=>{
     try {
-
-        /*
-          albumID: '',
-        artistID: '',
-        albumName: '',
-        artistName: '',
-        albumArt: '',
-        rating: '',
-        text:'',
-        date: new Date()
-        })
-        */
-
         const userName = res.locals.user
         
         const {albumID, artistID, albumName, artistName, albumArt, rating, text, date} = req.body

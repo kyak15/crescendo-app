@@ -2,37 +2,29 @@
 import React from 'react'
 import albumpage from './albumpage.css'
 import GenreComponent from './GenreComponenet'
-const genres = [    "indie+rock",
-"hip-hop",
-"pop",
-"rnb",
-"electronic"]
 
 export default function AlbumsPage(){
+
+    const [genre, setGenre] = React.useState('indie+rock')
     const [trendingData, setTrendingData] = React.useState(null)
     const [loading, setLoading] = React.useState(true)
 
-    async function handle(data){
-        console.log(`here @ handle`)
-       let cards = []
-        for(let i=0; i<4, i++;){
-            cards = data[i][genres[i]].map(item =>{
-                return (<GenreComponent trendingGenre={data[i][genres[i]]} genreName = {genres[i]} />)
-            })
-        }
-        return cards
-    }
 
     React.useEffect(()=>{
         async function getTrendingData(){
-            const dataCall = await fetch('http://localhost:8000/api/getalbumpagedata/',{
+            console.log(genre)
+            const dataCall = await fetch(`http://localhost:8000/api/getalbumpagedata/${genre}`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                   "Content-Type": "application/json"
-              }
+              },
+              
             })
+
             const data = await dataCall.json()
+        
+
             if(data.status !==200){
                 setTrendingData([])
                 setLoading(false)
@@ -45,28 +37,29 @@ export default function AlbumsPage(){
             }
         }
         getTrendingData()
-    },[])
+    },[genre])
         
         if(loading){
             return <h1>Loading</h1>
-        }else{
-    
+        }
+
+        else{
             return(
                 <div className='albums-page-container'>
-                    <h2 className='albums-page-title'>Popular Albums by Genres</h2>
-                    <div className='albums-page-genres-container'>
-                        <GenreComponent trendingData={trendingData[0]['indie+rock']} genre='Indie Rock' />
-                        <GenreComponent trendingData={trendingData[1]['hip-hop']} genre='Hip-Hop' />
-                        <GenreComponent trendingData={trendingData[2]['pop']} genre='Pop' />
-                        <GenreComponent trendingData={trendingData[3]['rnb']} genre='R&B' />
-                        <GenreComponent trendingData={trendingData[4]['electronic']} genre='Electronic' />
+                    <div className='title-container'>
+                        <h2 className='albums-page-title'>Trending Albums by Genre</h2>
+                        <select value={genre} onChange={e => setGenre(e.target.value)}>
+                                <option value='indie+rock'>Indie Rock</option>
+                                <option value='hip-hop'>hip hop</option>
+                                <option value='pop'>Pop</option>
+                                <option value='rnb'>R&B</option>
+                                <option value='electronic'>Electronic</option>
+                        </select>
                     </div>
-
+                    
+                    <GenreComponent trendingData={trendingData} genre={genre}/>
                 </div>
-
             ) 
-                
-            
         }
 
 }
