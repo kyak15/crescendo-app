@@ -7,14 +7,32 @@ body{
 .albums-page-container{
 	width: 100%;
 	height: 100%;
-	
+}
+
+.albums-page-title{
+	font-size: 1.3em;
+
 }
 
 .title-container{
-
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
 	color: white;
-	
+	font-size: .85rem;
+	padding-bottom: .5em;
 }
+select{
+	height: 50%;
+	background-color: #c66375;
+	border-radius: 25px 25px;
+	text-align: center;
+	color: black;
+}
+
+
 
 .genre-container{
 	display: flex;
@@ -22,13 +40,19 @@ body{
 	flex-direction: row;
 	width: 100%;
 	height: 100%;
-	padding-bottom: 8em;
+	padding-bottom: 2em;
 	color: white;
 	justify-content: space-evenly;	
 }
 
 .genre-container img{
 	width: 100%;
+	border: 3px solid black;
+}
+
+.genre-container img:hover{
+	width: 100%;
+	border: 3px solid #c66375
 }
 
 .album-card-container{
@@ -49,4 +73,57 @@ h3{
 h4{
 	font-size: 1em;
 	text-align: center;
+}
+
+@media (min-width: 769px){
+
+	.albums-page-title{
+		font-size: 2rem;
+	}
+
+	.genre-container{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		width: 100%;
+		height: 100%;
+		padding-bottom: 2em;
+		color: white;
+		justify-content: space-evenly;	
+	}
+
+	.genre-container img{
+		width: 100%;
+		border: 3px solid black;
+	}
+
+	.album-card-container{
+		width: 13%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	h3{
+		font-size: 1em;
+		text-align: center;
+		
+	}
+	
+	h4{
+		font-size: 1.25em;
+		text-align: center;
+	}
+
+	select{
+		padding: 1.1%;
+		background-color: #c66375;
+		border-radius: 40px 40px;
+		text-align: center;
+		color: black;
+		font-size: 1.2rem;
+	}
+	
+	
 }

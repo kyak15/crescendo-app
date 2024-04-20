@@ -5,7 +5,7 @@ import GenreComponent from './GenreComponenet'
 
 export default function AlbumsPage(){
 
-    const [genre, setGenre] = React.useState('indie+rock')
+    const [genre, setGenre] = React.useState('Indie Rock')
     const [trendingData, setTrendingData] = React.useState(null)
     const [loading, setLoading] = React.useState(true)
 
@@ -47,13 +47,17 @@ export default function AlbumsPage(){
             return(
                 <div className='albums-page-container'>
                     <div className='title-container'>
-                        <h2 className='albums-page-title'>Trending Albums by Genre</h2>
+                        <h2 className='albums-page-title'>Trending Albums in {genre}</h2>
                         <select value={genre} onChange={e => setGenre(e.target.value)}>
-                                <option value='indie+rock'>Indie Rock</option>
-                                <option value='hip-hop'>hip hop</option>
-                                <option value='pop'>Pop</option>
-                                <option value='rnb'>R&B</option>
-                                <option value='electronic'>Electronic</option>
+                                <option value='Indie Rock'>Indie Rock</option>
+                                <option value='Hip-Hop'>hip hop</option>
+                                <option value='Pop'>Pop</option>
+                                <option value='Rnb'>R&B</option>
+                                <option value='Electronic'>Electronic</option>
+                                <option value='Rock'>Rock</option>
+                                <option value='Jazz'>Jazz</option>
+                                <option value='Alternative'>Alternative</option>
+
                         </select>
                     </div>
                     
