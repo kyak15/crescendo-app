@@ -57,6 +57,50 @@ body{
 }
 
 
+/*LISTEN LIST STYLING BELOW*/
+
+.listen-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.listen-title{
+    color: white;
+    font-size: 1rem;
+}
+
+.listen-albums{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+.listen-albums img{
+    width: 100%;
+    border: 3px solid black;
+    
+}
+
+.listen-albums a{
+    width: 20%;
+    margin: .25em;
+}
+
+.listen-albums img:hover{
+    border: 3px solid #c66375;   
+}
+
+
+
+
+
+
 @media (min-width: 769px){
 
     .review-info{
@@ -95,6 +139,42 @@ body{
         width: 100%;
     }
 
+    .listen-container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .listen-title{
+        color: white;
+        font-size: 2rem;
+    }
+    
+    .listen-albums{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 84%;
+        height: 100%;
+        
+        
+        
+    }
+    .listen-albums img{
+        width: 100%;   
+        border: 4px solid black;
+    }
+    
+    .listen-albums a{
+        width: 10%;
+        margin: .5em;
+    }
+
+    .listen-albums img:hover{
+        border: 5px solid #c66375;   
+    }
 
 }
 

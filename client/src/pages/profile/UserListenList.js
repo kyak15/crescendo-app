@@ -35,9 +35,9 @@ export default function UserListenList(){
 
     return(
         <div className='listen-container'>
-            <div className='title-container'>
-                <h3 >{id} wants to listen to {listenList.length} Albums</h3>
-            </div>
+           
+                <h3 className='listen-title' >@{id} wants to listen to {listenList.length} Albums</h3>
+      
 
             <div className='listen-albums'>
                 {listenList!==null?listenList.map(album=>{
