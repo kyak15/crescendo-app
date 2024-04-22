@@ -36,14 +36,14 @@ export default function UserReviewPage(){
 
     return(
         <div className='reviews-page-container'>
-            <h3 className='page-title'>{id}'s Reviews</h3>
+            <h3 className='page-title'>@{id}'s Reviews</h3>
 
             <div className='reviews-container'>
-
                 {userReviews.length<1?<p>loading</p>:userReviews.map(review=>{
                     const newDate = new Date(review.addeddate)
-                    
-                    return<div className='single-review'>
+                    return(
+
+                        <div className='single-review'>
                             <NavLink to={`/albums/${review.albumname}`}><img src={review.albumart}/></NavLink>
 
                             <div className='review-info'>
@@ -51,12 +51,10 @@ export default function UserReviewPage(){
                                 <p>{review.artistname}</p>
                                 <p>Reviewed on: {newDate.toLocaleDateString('en-US', options)}</p>
                                 <p>{review.rating} <FontAwesomeIcon className='rating-icon' icon={faStar} />'s</p>
-                         
-                                <p>{review.usertext}</p>
+                                <p>"{review.usertext}"</p>
                             </div>
-                        </div>
+                        </div>)
                 })}
-
             </div>
 
         </div>
