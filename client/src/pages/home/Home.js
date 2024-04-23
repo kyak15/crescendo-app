@@ -39,7 +39,7 @@ export default function Home(props){
         <div className='home-container'>
 
             <div className='home-title-container'>
-                <h3 className='first-title'>The social network for music lovers </h3>
+                <h3>The social network for music lovers </h3>
                 <h3>Track albums you've listened to</h3>
                 <h3>Save those you heard</h3>
                 <h3>Review and tell your friends</h3>
@@ -78,11 +78,9 @@ export default function Home(props){
                     <p>Follow your friends and share albums and reviews with them</p>
                 </div>
             </div>
-
+            <h3 className='popular-title'>Check Out and Review These Classics!</h3>
             <div className='home-popular-container'>
-                <div className='popular-title'>
-                    <h3>Check Out and Review These Classics!</h3>
-                </div>
+         
                 <div className='popular-container'>
                     {homeData!==null&&homeData.length!==0?homeData.homeData.map(album=>{
                         
