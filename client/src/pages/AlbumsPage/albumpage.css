@@ -18,11 +18,12 @@ body{
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	color: white;
-	font-size: .85rem;
+	font-size: .7rem;
 	padding-bottom: .5em;
+	
 }
 select{
 	height: 50%;

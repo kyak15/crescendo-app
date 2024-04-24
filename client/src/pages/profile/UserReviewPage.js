@@ -44,6 +44,7 @@ export default function UserReviewPage(){
                     return(
 
                         <div className='single-review'>
+                            
                             <NavLink to={`/albums/${review.albumname}`}><img src={review.albumart}/></NavLink>
 
                             <div className='review-info'>

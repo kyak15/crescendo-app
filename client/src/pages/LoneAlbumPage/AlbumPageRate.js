@@ -6,7 +6,11 @@ import { faPlus, faPencil, faHeart} from '@fortawesome/free-solid-svg-icons';
 
 export default function AlbumPageRate(props){
 
-    const [reviewPP, setReviewPP] = React.useState(false)
+    
+    const [reviewData, setReviewData] = React.useState({
+        rating: '',
+        text:'',
+    })
 
     console.log(props.data)
 
@@ -68,6 +72,43 @@ export default function AlbumPageRate(props){
       alert(`Added to Listen List!`)
 
     }
+
+    async function handleReviewSubmit(e){
+        e.preventDefault()
+
+        console.log(props.data)
+
+        const reviewSubmission = {
+            rating: reviewData.rating,
+            text: reviewData.text,
+            date: new Date(),
+            albumID: props.data.id, 
+            artistID: props.data.artists[0].id,
+            albumName: props.data.name,
+            artistName: props.data.artists[0].name,
+            albumArt: props.data.images[0].url
+        }
+        
+        const body = reviewSubmission
+        const finalBody = JSON.stringify(body)
+        console.log(`final: ${finalBody}`)
+        const insertDataCall = await fetch('http://localhost:8000/api/addreview/', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json"
+          },
+          body:finalBody
+          })
+        
+        const insertData = await insertDataCall.json()
+
+        if(insertData.status !== 201){
+            return console.log(`REVIEW NOT ADDED`)
+        }
+        
+        alert('Album Added to Reviews!')
+    }
     
     return(
         <div className='album-rate-container'>
@@ -85,10 +126,26 @@ export default function AlbumPageRate(props){
             </div>
 
             <div className='add-container'>
-                <button className='rate-button' onClick={()=>setReviewPP(true)}><FontAwesomeIcon className='rate-icon' icon={faPencil} />Add new Review</button>
-                <ReviewPopup setTrigger={setReviewPP} trigger={reviewPP} data={props.data}>
-                    <h1>my popup</h1>
-                </ReviewPopup>
+            <div className='popup-review-container'>
+                    <form>
+                        <h3>Rating:</h3>
+                            <input
+                                type='number'
+                                min={1}
+                                max={5}
+                                onChange={e=>{setReviewData({...reviewData, rating: e.target.value})}}
+
+                            />
+                        
+                        <h3 className='popup-title-review'>Review:</h3>
+                            <input
+                                type='text'
+                                onChange={e=>{setReviewData({...reviewData, text: e.target.value})}}
+                                className='review-textbox'
+                            />
+                        </form>
+                        <button className='inner-submit-button' onClick={e=>{handleReviewSubmit(e)}}>Submit Review</button>
+                </div>
             </div>
 
         </div>

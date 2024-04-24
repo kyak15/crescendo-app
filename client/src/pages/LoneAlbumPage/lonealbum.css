@@ -214,7 +214,7 @@ body{
 
 .inner-submit-button{
 	margin-top: 10px;
-	width: 80px;
+	
 
 }
 
@@ -335,6 +335,7 @@ body{
 		width: 100%;
 		text-align: center;
 		font-size: 1.2rem;
+		
 	}
 	
 	.add-container{
@@ -342,10 +343,11 @@ body{
 		flex-direction: row;
 		width: 80%;
 		margin-bottom: 2em;
+		
 	}
 	
 	.rate-instruct{
-		
+		margin-bottom: 15%;
 	}
 	.add-container button{
 		width: 100%;
@@ -422,7 +424,7 @@ body{
 	
 	.inner-submit-button {
 		margin-top: 10px;
-		width: 80px;
+		
 	}
 	
 	.review-info {

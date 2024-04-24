@@ -1,5 +1,5 @@
 *{
-    font-family: inter
+    
 }
 
 body{
@@ -143,7 +143,7 @@ body{
 
 .album-container img:hover{
 
-    border: 3px solid #c66375;;
+    border: 3px solid #c66375;
 }
 
 @media (min-width: 769px){
@@ -175,14 +175,9 @@ body{
     }
     
     .home-title-container a{
-        text-align: center;
-        font-size: 30px;
+        font-size: 2rem;
         background-color: #c66375;
-        width: 20%;
-        height: 5%;
-        font-family: #cc905c;
         border: none;
-  
         color: white;
         text-decoration: none;
         

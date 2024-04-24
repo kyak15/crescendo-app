@@ -59,26 +59,7 @@ export default function ReviewPopup(props){
                 </div>
 
                 <button className='popup-inner-close-button' onClick={()=>props.setTrigger(false)}>Close</button>
-                <div className='popup-review-container'>
-                    <form>
-                        <h3>Rating:</h3>
-                            <input
-                                type='number'
-                                min={1}
-                                max={5}
-                                onChange={e=>{setReviewData({...reviewData, rating: e.target.value})}}
 
-                            />
-                        
-                        <h3 className='popup-title-review'>Review:</h3>
-                            <input
-                                type='text'
-                                onChange={e=>{setReviewData({...reviewData, text: e.target.value})}}
-                                className='review-textbox'
-                            />
-                        </form>
-                        <button className='inner-submit-button' onClick={e=>{handleSubmit(e)}}>Submit Review</button>
-                </div>
 
             </div>
         </div>

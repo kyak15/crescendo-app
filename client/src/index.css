@@ -1,24 +1,31 @@
+*{
+  font-family: monospace;
+}
+
 .header-layout{
-  
-  height: 100%;
+  height: 3em;
   width: 100%;
-  padding-bottom: 3em;
+  display: flex;
+  flex-direction: row;
   background-color: #8d9cd3;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
 }
 
 .logo-header-layout{
-  
   text-decoration: none;
   color: white;
-  font-size: 8px;
 }
 
+
+
 .links-header-layout{
-  font-size: 8px;
+  font-size: .5rem;
   text-decoration: none;
   margin-left: 10%;
   color: white;
-  font-family: verdana;
+  
 }
 
 
@@ -34,25 +41,110 @@
 
 /*PROFILE PAGE STYLING START*/
 
+.profile-layout-container{
+	
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	width: 100%;
+	
+}
+
 .profile-layout-nav{
 	
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
+	width: 85%;
+  padding: .5em;
 	border: 3px solid black;
 	margin-top: 5%;
-	margin-left: 9%;
-	margin-right: 9%;
-	height: 40px;
+	
+	
 	background-color: #c66375;
+	
 }
 
 .profile-layout-container a{
-	font-size: 24px;
+	font-size: 1rem;
 	color: white;
 	text-decoration: none;
 }
 
 .profile-layout-container a:hover{
 	color: #242526;
+}
+
+@media (min-width: 769px){
+
+  .header-layout{
+    height: 3em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #8d9cd3;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 2em;
+  }
+  
+  .logo-header-layout{
+    text-decoration: none;
+    color: white;
+    
+  }
+
+  .logo-header-layout:hover{
+    color: black;
+
+  }
+  
+  .links-header-layout:hover{
+    color:black
+  }
+
+  .links-header-layout{
+    font-size: 1.5rem;
+    text-decoration: none;
+    margin-left: 10%;
+    color: white;
+    
+  }
+
+  .profile-layout-container{
+	
+	
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    width: 100%;
+    
+  }
+  
+  .profile-layout-nav{
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 85%;
+    border: 3px solid black;
+    margin-top: 5%;
+    
+    background-color: #c66375;
+    
+  }
+  
+  .profile-layout-container a{
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .profile-layout-container a:hover{
+    color: #242526;
+  }
+
 }
