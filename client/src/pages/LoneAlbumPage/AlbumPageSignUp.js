@@ -6,10 +6,10 @@ import { faRightToBracket} from '@fortawesome/free-solid-svg-icons';
 
 export default function AlbumPageSignUp(){
     return(
-        <div className='signup-comp-container'>
+        <div className='signup-comp'>
             <h3>Log in to Review!</h3>
-            <NavLink to='/login'><FontAwesomeIcon className='signin-icon' icon={faRightToBracket} />Login</NavLink>
-            <NavLink to='/signup'><FontAwesomeIcon className='signin-icon' icon={faRightToBracket} />Sign Up</NavLink>
+            <NavLink to='/login'><FontAwesomeIcon className='signin-icon' icon={faRightToBracket} />    Login</NavLink>
+            <NavLink to='/signup'><FontAwesomeIcon className='signin-icon' icon={faRightToBracket} />   Sign Up</NavLink>
         </div>
     )
 }

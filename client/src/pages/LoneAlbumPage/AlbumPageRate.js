@@ -73,24 +73,18 @@ export default function AlbumPageRate(props){
         <div className='album-rate-container'>
 
             
+            <h2 className='rate-top-title' >Interact:</h2>
+            <p className='rate-instruct'>Add to your FavFive, Listen List, or Leave a Review</p>    
             
             <div className='add-container'>
-            <h2 className='rate-top-title' >Interact:</h2>
-            <p className='rate-instruct'>Add to your FavFive, Listen List, or Leave a Review</p>
-            
-                
                 <button className='rate-button' onClick={e=>{addFavorite(e)}}><FontAwesomeIcon className='rate-icon' icon={faHeart} />Add to Fav Five</button>
             </div>
             
             <div className='add-container'>
-                
-            
                 <button className='rate-button' onClick={e=>{handleSubmit(e)}}><FontAwesomeIcon className='rate-icon' icon={faPlus} />Add to Listen List</button>
             </div>
 
             <div className='add-container'>
-                
-                
                 <button className='rate-button' onClick={()=>setReviewPP(true)}><FontAwesomeIcon className='rate-icon' icon={faPencil} />Add new Review</button>
                 <ReviewPopup setTrigger={setReviewPP} trigger={reviewPP} data={props.data}>
                     <h1>my popup</h1>

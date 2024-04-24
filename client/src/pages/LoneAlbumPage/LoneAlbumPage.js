@@ -47,9 +47,7 @@ export default function LoneAlbumPage(props){
     }
     if(album){
         return(
-            <div className='lone-album-container'>
-                <AlbumComp album={album} user={props.user}/>
-            </div>
+            <AlbumComp album={album} user={props.user}/>
         )
     }
 }

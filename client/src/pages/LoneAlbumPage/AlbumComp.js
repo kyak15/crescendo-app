@@ -45,43 +45,43 @@ export default function AlbumComp(props){
 
     return(
         <div className='album-comp-container'>
-            <div className='album-stuff'>
+
+
+            <div className='album-info'>
+                
                 <div className='album-comp-image'>
-                        <img src={props.album.albumData.images[0].url} />
-                        <h2>{props.album.albumData.name}</h2>
-                        {tracks}
-                    </div>
+                    <img src={props.album.albumData.images[0].url} />
+                    <h2>{props.album.albumData.name}</h2>
+                    {tracks}
+                </div>
 
                     {/**PUT THERE GENRES AND TOP TRACKS IN THIS DIV!!! */}
-                    <div className='album-comp-desc'>
-                        <h2 className='artist-title'>{props.album.albumData.artists[0].name}</h2>
-                        <p className='genres-title'>Genres: {genres}</p>
-                        <TrackPlay hits={props.album.trackData.tracks} />
-                    </div>
-
-                    <div className='album-comp-interact'>
-                        
-                        {!props.user?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
-            
-                    </div>
-            
+                <div className='album-desc'>
+                    <h2 className='artist-title'>{props.album.albumData.artists[0].name}</h2>
+                    <p className='genres-title'>Genres: {genres}</p>
+                    <TrackPlay hits={props.album.trackData.tracks} />
                 </div>
+
+                
+                {!props.user?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
+                
+            </div>
             
-            <div className='album-stuff-users'>
-                <h3 className='genres-title'>Recent Reviews for {props.album.albumData.name}</h3>
+            <div className='album-users-container'>
+                <h3 className='review-title'>Recent Reviews for {props.album.albumData.name}</h3>
                 {albumReviews!==null?albumReviews.map(review=>{
                     const newDate = new Date(review.addeddate)
                     
-                    return <div className='single-review'>
+                    return <div className='album-review'>
                     
 
                     <div className='review-info'>
                         <p>@{review.username}'s Review:</p>
-                        <p>{review.rating}</p>
+                        <p>{review.rating} Stars</p>
                         
                         
                  
-                        <p>{review.usertext}</p>
+                        <p>"{review.usertext}"</p>
                     </div>
                 </div>
 

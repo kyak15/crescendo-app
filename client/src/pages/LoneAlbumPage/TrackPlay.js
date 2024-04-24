@@ -91,7 +91,7 @@ export default function TrackPlay(props){
 
             trackPieces[0]!==null?trackPieces
             :(<div>
-                <p>The artist does not provide sample tracks</p>
+                <p className='trackplay-none'>The artist does not provide sample tracks</p>
             </div>
                 
                 )
