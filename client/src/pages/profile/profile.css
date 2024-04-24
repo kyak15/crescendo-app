@@ -31,6 +31,7 @@ body{
     border-top: 3px solid #8d9cd3;
     width: 100%;   
     padding: 2em;
+    word-break: break-all;
 }
 
 .single-review img{
@@ -98,10 +99,96 @@ body{
 
 
 
+/*USER PROFILE PAGE*/
+
+.user-page-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 4em;
+}
+
+.favorite-container{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-around;   
+}
+
+.favorite-container img{
+    width: 100%;    
+    border: 1px solid black;
+    
+}
+
+.favorite-container a{
+    padding-left: .15em;
+    padding-right: .15em;
+    width: 18%; 
+}
+
+.user-reviews{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-around; 
+    
+}
+
+.user-reviews a{
+    padding-left: .15em;
+    padding-right: .15em;
+    width: 18%; 
+}
+
+.user-reviews img{
+    width: 100%;
+    border: 1px solid black;
+}
+
+
+
+.review-container{
+    display: flex;
+    width: 100%;
+}
+
+
+.review-container img{
+    width: 100%;
+
+    border: 1px solid black;
+
+}
+
+.user-listen{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-around;    
+}
+
+.user-listen a{
+    padding-left: .15em;
+    padding-right: .15em;
+    width: 18%; 
+}
+
+.user-listen img{
+    width: 100%;
+    border: 1px solid black;
+}
+
+
+
+
 
 
 
 @media (min-width: 769px){
+
 
     .review-info{
         margin-right: 1em;
@@ -124,6 +211,7 @@ body{
         width: 100%;       
         padding: 2em;
         margin: 0 1em;
+        word-break: break-all;
     }
 
     .single-review img{
@@ -137,6 +225,7 @@ body{
         margin-right: 1em;
         font-size: 1.5rem;   
         width: 100%;
+        
     }
 
     .listen-container{
@@ -175,7 +264,9 @@ body{
     .listen-albums img:hover{
         border: 5px solid #c66375;   
     }
-
+    .user-page-container{
+        font-size: 1.5rem;
+    }
 }
 
 

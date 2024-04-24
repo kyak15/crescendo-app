@@ -89,7 +89,7 @@ export default function Profile(props){
             <div className='favorite-container'>
                 {userData.favData===null?<p>Loading</p>
                 :userData.favData.map(album=>{
-                    return <NavLink><img src={album.albumart}/></NavLink>
+                    return <NavLink to={`/albums/${album.albumname}`}><img src={album.albumart}/></NavLink>
                 })}
             </div>
             
@@ -98,23 +98,16 @@ export default function Profile(props){
                 {userData.reviewData===null?<p>Loading</p>:
          
                 userData.reviewData.slice(0,5).map(review=>{
-                    return <div className='review-container'>
-                                <img src={review.albumart}/>
-                                <p className='rating'>{review.rating} stars</p>
-                            </div>
-                })}
+                    console.log(review)
+                    return    <NavLink to={`/albums/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
             </div>
 
-            <NavLink to={`/user/${id}/listenlist`} className='section-title'>{id}'s Listen List</NavLink>
+            <h3>{id}'s  Recent Listen List</h3>
             <div className='user-listen'>
                 {userData.listenData===null?<p>Loading</p>:
             
             userData.listenData.slice(0,5).map(item=>{
-                return <div className='review-container'>
-                            <img src={item.albumart}/>
-                            
-                        </div>
-            })}
+                return <NavLink to={`/albums/${item.albumname}`}><img src={item.albumart}/></NavLink>})}
 
             </div>
         </div>

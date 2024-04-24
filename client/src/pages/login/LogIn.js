@@ -1,5 +1,5 @@
 import React from 'react'
-import login from './login.css'
+import signup from './signup.css'
 import { useNavigate, NavLink } from 'react-router-dom'
 
 export default function LogIn(props){
@@ -41,9 +41,9 @@ export default function LogIn(props){
 
     return(
 
-        <div className='login-container'>
-            <h3 className='login-title'>Log In</h3>
-            <h3 className='login-second-title'>Not a User? <NavLink to='/signup'> Click Here Sign Up!</NavLink> </h3>
+        <div className='signup-container'>
+            <h3 className='signup-title'>Log In</h3>
+            <h3 className='signup-second-title'>Not a User? <NavLink to='/signup'> Click Here Sign Up!</NavLink> </h3>
             <form>
                 <input
                 type='email'
