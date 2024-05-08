@@ -14,9 +14,9 @@ import { addFavorite,
 
     } from './controllers/userController.js';
 
-import { getUserReviews, getUserFavoriteFive, checkUserExists, } from './controllers/clientController.js';
+import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews } from './controllers/clientController.js';
 
-import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum, test } from './controllers/spotifyController.js';
+import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlbums, getAlbumPageSearch } from './controllers/spotifyController.js';
 
 const app = express()
 app.use(cors({
@@ -59,16 +59,20 @@ app.patch('/api/changereview/', restricted, changeReview)
 
 
 //CLIENT CONTROLLERS 
-app.get('/api/:user/reviews', checkUserExists, getUserReviews)
+app.get('/api/:user/reviews/', checkUserExists, getUserReviews)
 app.get('/api/:user/favoritefive', checkUserExists, getUserFavoriteFive)
-app.get('/api/getalbumpagedata', getLastFMData, getSpotifyAlbums)
+app.get('/api/:user/listenlist/', checkUserExists, getUserListenList)
+app.get('/api/getalbumpagedata/:genre', getLastFMData, getSpotifyAlbums)
 app.get('/api/usersearchalbum/', getUserSearch)
 app.get('/api/getlonealbum/:album', getLoneAlbum)
+app.get('/api/album/:album/reviews', getAlbumReviews)
+app.get('/api/getusersearch/:search', getAlbumPageSearch)
+app.get('/api/gethomealbums/', getHomeAlbums)
 
 
 
 
-app.get('/api/test', test)
+
 
 app.listen(port, ()=>{
     console.log(`Listening on port: ${port}`)

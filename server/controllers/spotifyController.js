@@ -380,12 +380,41 @@ const getHomeAlbums = async(req,res)=>{
         status: 200,
         homeData
     })
+}
+
+const getAlbumPageSearch = async(req,res)=>{
+
+    try {
+        const userSearch = req.params.search
+        const spotifyToken = await getSpotifyToken()
+        const searchCall = await fetch(`https://api.spotify.com/v1/search?q=${userSearch}&type=album&limit=10`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${spotifyToken}`
+            }})
+        const searchData = await searchCall.json()
+        
+        
+        return res.json({
+            status: 200,
+            searchData
+        })
+            
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            status: 500,
+            message: error.message
+        })
+    }
 
 
 
+    
 
+    
 }
 
 
 
-  export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, getHomeAlbums}
+  export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, getHomeAlbums, getAlbumPageSearch}
