@@ -7,6 +7,10 @@ body{
 .albums-page-container{
 	width: 100%;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
 }
 
 .albums-page-title{
@@ -15,10 +19,12 @@ body{
 }
 
 .title-container{
+	margin-top: 2em;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-around;
+	width: 100%;
 	align-items: center;
 	color: white;
 	font-size: .7rem;
@@ -34,8 +40,59 @@ select{
 }
 
 
+.search-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+
+.result-container{
+	width: 70%;
+	display: flex;
+	flex-direction: column;
+	margin-top: 1em;
+	
+}
+
+.result-container a{
+	text-decoration: none;
+	color: white;
+}
+.search-box{
+	width: 50%;
+	text-align: center;
+}
+
+.search-icon{
+	height: 2em;
+}
+.search-icon:hover{
+	color: #c66375;
+}
+
+.search-album-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: baseline;
+	margin-top: 2em;
+	font-size: .85rem;
+	align-items: center;
+	
+	
+}
+
+.search-album-container h3{
+	margin-left: 2em;
+	
+}
+
+.search-album-container:hover{
+	background-color: #c66375;
+}
 
 .genre-container{
+	margin-top: 3em;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
