@@ -6,32 +6,40 @@ const lastFMKey= 'api_key=cc9731b881b69331e019c18c8a635c7e'
 
 
 const getSpotifyToken = async(req,res)=>{
-    try {
-        const spotifyAuth = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': `Basic ${Buffer.from(`${clientID}:${clientSecret}`).toString('base64')}`,
-            },
-            body: 'grant_type=client_credentials',
-          });
+
+
     
-          const spotifyToken = await spotifyAuth.json()
-          return spotifyToken.access_token
+    const spotifyAuth = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Basic ${Buffer.from(`${clientID}:${clientSecret}`).toString('base64')}`,
+        },
+        body: 'grant_type=client_credentials',
+        });
+
+        const spotifyToken = await spotifyAuth.json()
+    
         
-    } catch (error) {
-        console.log(111)
-        console.log(error)
+        res.cookie('spotToken', spotifyToken.access_token,{
+            httpOnly: true,
+            secure: false, //!this should be changed to true when in production, fine as false in dev
+            maxAge: 1000*60*60
+        })
+        return spotifyToken.access_token
         
-    }
+  
 }
 
 
 //! Need to discuss faster API Call ?
 //! Need to discuss Calling this function only once from the list of Genres Data 
 //! Optimizing it to less than 2.5 Seconds??
-async function mapJSFunc(currentValue) {
-    const spotifyToken = await getSpotifyToken()
+async function mapJSFunc(toke, currentValue) {
+
+    
+    
+    
    
     
     return await fetch(
@@ -39,7 +47,7 @@ async function mapJSFunc(currentValue) {
         (currentValue.artist + ' ' + currentValue.album)}&type=album&limit=1`,{
             method: 'GET',
             headers: {
-            'Authorization': `Bearer ${spotifyToken}`,
+            'Authorization': `Bearer ${toke}`,
             }
         })
         .then(data => {
@@ -71,19 +79,25 @@ async function mapJSFunc(currentValue) {
 
 // function retrieves Spotify IDs of artists and albums to display on Albums Page of Client side
 const getSpotifyAlbums = async(req,res)=>{
-    //const spotifyToken = await getSpotifyToken() //! dont need this code
+    
     
     const lastData = req.data
     
 
     //* lastData[0]['indie+rock']) THIS GETS US THE GENRE ARRAY OF ALBUM/ARTIST OBJECTS
+    const spotifyToken = req.cookies.spotToken || await getSpotifyToken(req, res); // Pass req and res to getSpotifyToken
 
-    //TODO: 
-        //? Despite working, maybe theres a way of only doing this in 1-3 lines rather than 10
-
+    
     let spotData = []    
-    const indieRockData = await Promise.all(lastData.map(mapJSFunc))
-        .then(data => spotData.push(data));    
+    const indieRockData = await Promise.all(lastData.map(item => mapJSFunc(spotifyToken, item)))
+        .then(data => spotData.push(data))
+        .catch(error => {
+            console.error('Error processing data:', error);
+            return res.status(500).json({
+                status: 500,
+                message: 'Error processing data'
+            });
+        });   
 
     //success code:
     res.json({
@@ -179,12 +193,12 @@ const getLastFMData = async(req,res, next)=>{
     try {
         const lastFMRequest = await fetch(lastFMURL+'&tag='+genre+'&'+lastFMKey);
         if(!lastFMRequest.ok){
-            console.log(111)
             throw new Error(`HTTP Error: Status: ${lastFMRequest.status}`)
         }
 
         const lastFMData = await lastFMRequest.json()
         const albumData = lastFMData.albums.album
+        
         
         const mapData = albumData.map(album =>{
             return{
@@ -211,7 +225,7 @@ const getLoneAlbum = async(req,res)=>{
     try {
 
         // get the album name from the url params
-        const spotifyToken = await getSpotifyToken()
+        const spotifyToken = req.cookies.spotToken || await getSpotifyToken(req, res); // Pass req and res to getSpotifyToken
         const albumPageName = req.params.album
         
         
@@ -249,7 +263,7 @@ const getLoneAlbum = async(req,res)=>{
         const userSpotData = await userSpotDataCall.json()
         
 
-        //gets the artist data
+        
         const artistCall = await fetch(`https://api.spotify.com/v1/artists/${userSpotData.artists[0].id}`,{
             method: 'GET',
             headers: {
@@ -303,9 +317,9 @@ const getLoneAlbum = async(req,res)=>{
 
 
 const getHomeAlbums = async(req,res)=>{
-    const spotifyToken = await getSpotifyToken()
-    //albums: TPAB, DSOTM, Discovery, Is this it, abbey road, thriller, rumors, nevermind, lauren hill, 
-    // back to black
+    
+    const spotifyToken = req.cookies.spotToken ?req.cookies.spotToken: await getSpotifyToken(req,res)
+    
 
     let homeData = []
 
@@ -386,7 +400,7 @@ const getAlbumPageSearch = async(req,res)=>{
 
     try {
         const userSearch = req.params.search
-        const spotifyToken = await getSpotifyToken()
+        const spotifyToken = req.cookies.spotToken ?req.cookies.spotToken: await getSpotifyToken(req,res)
         const searchCall = await fetch(`https://api.spotify.com/v1/search?q=${userSearch}&type=album&limit=10`, {
             method: 'GET',
             headers: {
@@ -406,15 +420,7 @@ const getAlbumPageSearch = async(req,res)=>{
             status: 500,
             message: error.message
         })
-    }
-
-
-
-    
-
-    
+    }   
 }
-
-
 
   export {getSpotifyAlbums, getLastFMData, getUserSearch, getLoneAlbum, getHomeAlbums, getAlbumPageSearch}
