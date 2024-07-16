@@ -3,9 +3,10 @@ import lonealbum from './lonealbum.css'
 import { useParams } from 'react-router-dom';
 import AlbumComp from './AlbumComp';
 
-export default function LoneAlbumPage(props){
+export default function LoneAlbumPage(){
 
     const [album, setAlbum] = React.useState(null)
+    const [loading, setLoading] = React.useState(true)
 
     const id = useParams().album
     
@@ -26,12 +27,14 @@ export default function LoneAlbumPage(props){
             if(albumData.status!==200){
                 //! probably set a navigate to an error page
                 setAlbum(null)
+
             }else{
                 setAlbum(
                     {albumData: albumData.userSpotData,
                      artistData: albumData.artistData,
                      trackData: albumData.trackData   
                     })
+                setLoading(false)
             }
 
         }
@@ -40,14 +43,20 @@ export default function LoneAlbumPage(props){
     
     
 
-    if(album === null){
+    if(album !== null){
         return(
-            <h1>That Page does not exist!</h1>
+            <AlbumComp album={album} />
         )
     }
-    if(album){
+    else if(loading){
         return(
-            <AlbumComp album={album} user={props.user}/>
+            <h1>Loading!</h1>
+        )
+    }
+
+    else{
+        return(
+            <h1>That Page does not Exist!</h1>
         )
     }
 }

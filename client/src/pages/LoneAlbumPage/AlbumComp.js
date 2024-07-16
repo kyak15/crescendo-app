@@ -1,15 +1,18 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { NavLink } from 'react-router-dom'
 import lonealbum from './lonealbum.css'
 import AlbumPageRate from './AlbumPageRate'
 import TrackPlay from './TrackPlay'
 import AlbumPageSignUp from './AlbumPageSignUp'
+import { AuthContext } from '../../UserContext'
 const options = { month: 'long', day: 'numeric', year: 'numeric' };
 // <p>Reviewed on: {newDate.toLocaleDateString('en-US', options)}</p>
 
 export default function AlbumComp(props){
 
     const [albumReviews, setAlbumReviews] = React.useState([])
+    const {  userName,  setUserName } = useContext(AuthContext);
+
 
     const tracks = props.album.albumData.tracks.items.map(track=><p>{track.name}</p>)
     const genres = props.album.artistData.genres.slice(0,2).map(genre=><p className='genre'>{genre} </p>)
@@ -25,17 +28,15 @@ export default function AlbumComp(props){
               },
             })
 
-            const reviewData = await reviewCall.json()
-
-            
-
-            
+            const reviewData = await reviewCall.json()            
 
             if(reviewData.status!==200){
                 setAlbumReviews(null)
+            }else{
+                setAlbumReviews(reviewData.data)
             }
 
-            setAlbumReviews(reviewData.data)
+            
 
         }
         getAlbumReviews()
@@ -63,7 +64,7 @@ export default function AlbumComp(props){
                 </div>
 
                 
-                {!props.user?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
+                {!userName?<AlbumPageSignUp/>:<AlbumPageRate data={props.album.albumData}/>}
                 
             </div>
             

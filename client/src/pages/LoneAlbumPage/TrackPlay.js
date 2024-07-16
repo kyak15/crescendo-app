@@ -63,7 +63,7 @@ export default function TrackPlay(props){
     }
 
     const trackPieces = props.hits.slice(0,5).map(song=>{
-        console.log(song.preview_url)
+        
         if(song.preview_url!==null){
             return(
                 <div onClick={e=>toggleSong(song.name)}  className='trackplay-song-container'>

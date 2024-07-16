@@ -4,7 +4,7 @@ import home from './home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faHeart, faPencil, faStar, faBook, faUserGroup} from '@fortawesome/free-solid-svg-icons';
 
-export default function Home(props){
+export default function Home(){
 
     const [homeData, setHomeData] = React.useState(null)
 

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import signup from './signup.css'
 import { useNavigate, NavLink } from 'react-router-dom'
 
-export default function LogIn(props){
+
+export default function LogIn(){
+
+    
+
     const navigate = useNavigate()
 
     const [formData, setFormData] = React.useState({
@@ -29,8 +33,7 @@ export default function LogIn(props){
             if(requestData.status !== 200){
                 throw new Error('Signup Failed. Please Try Again')
             }
-
-            
+            //setUser(requestData.userName)
             navigate('/')
             return window.location.reload()
     

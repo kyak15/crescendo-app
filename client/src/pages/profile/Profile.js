@@ -1,11 +1,18 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import profile from './profile.css'
 import {useParams, NavLink} from 'react-router-dom'
 import ProfileHeader from '../../components/ProfileLayout'
 import FavoriteFive from './FavoriteFive'
+import { AuthContext } from '../../UserContext'
 
 
-export default function Profile(props){
+export default function Profile(){
+
+    
+    const { userName, setUserName } = useContext(AuthContext);
+
+    
+    
 
     const [userData, setUserData] = React.useState({
         favData: [],
@@ -64,6 +71,21 @@ export default function Profile(props){
        getUserFavorites()
     },[])
 
+
+    async function followUser(){
+        
+        console.log(id)
+        
+        const followCall = await fetch(`http://localhost:8000/api/addfollower/`,{
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id: id})})
+    
+    }
+
     
     
     if(userData === null){
@@ -72,6 +94,7 @@ export default function Profile(props){
         </div>)
     }
 
+
     return(
         <div className='user-page-container'>
 
@@ -79,9 +102,16 @@ export default function Profile(props){
                 <h3 className='username'>@{id}</h3>
                 <div className='user-stats'>
                     <p>{userData.reviewData.length} Reviews</p>
+                    {userName === id?<button>Settings</button>:
+                    <button
+                        onClick={()=> followUser()}
+                    >Follow</button>
+                    }
+                    
+                    
                     
                 </div>
-                {/*Gonna place the Users Number of followers, reviews, and listen list values*/}
+            
             </div>
 
             
@@ -98,7 +128,7 @@ export default function Profile(props){
                 {userData.reviewData===null?<p>Loading</p>:
          
                 userData.reviewData.slice(0,5).map(review=>{
-                    console.log(review)
+                    
                     return    <NavLink to={`/albums/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
             </div>
 

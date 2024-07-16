@@ -12,7 +12,7 @@ export default function AlbumPageRate(props){
         text:'',
     })
 
-    console.log(props.data)
+    
 
     async function addFavorite(e){
         e.preventDefault()
@@ -38,6 +38,10 @@ export default function AlbumPageRate(props){
 
           if(addListenData.status === 400){
             return console.log('User Already has 5 favorites')
+          }
+
+          if (addListenData.status === 500){
+            return console.log('Album Already in User Fav Five!')
           }
 
           alert('Album Added to Fav Five!')
@@ -68,6 +72,7 @@ export default function AlbumPageRate(props){
       if(addListenData.status!== 201){
         return console.log('Failed to add to list')
       }
+      
 
       alert(`Added to Listen List!`)
 
@@ -76,7 +81,7 @@ export default function AlbumPageRate(props){
     async function handleReviewSubmit(e){
         e.preventDefault()
 
-        console.log(props.data)
+        
 
         const reviewSubmission = {
             rating: reviewData.rating,
@@ -91,7 +96,7 @@ export default function AlbumPageRate(props){
         
         const body = reviewSubmission
         const finalBody = JSON.stringify(body)
-        console.log(`final: ${finalBody}`)
+        
         const insertDataCall = await fetch('http://localhost:8000/api/addreview/', {
             method: 'POST',
             credentials: 'include',

@@ -18,7 +18,7 @@ export default function AlbumsPage(){
 
     React.useEffect(()=>{
         async function getTrendingData(){
-            console.log(genre)
+            
             const dataCall = await fetch(`http://localhost:8000/api/getalbumpagedata/${genre}`,{
                 method: 'GET',
                 credentials: 'include',
@@ -46,7 +46,7 @@ export default function AlbumsPage(){
     },[genre])
 
     function handleActiveSearch(){
-        console.log(activeSearch)
+        
         activeSearch?setActiveSearch(false):setActiveSearch(true)
     }
 

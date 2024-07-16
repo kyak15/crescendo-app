@@ -255,7 +255,7 @@ body{
 	}
 
 	.album-desc{
-	
+		
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -316,13 +316,16 @@ body{
 		
 		font-size: 2rem;
 		width: 100%;
+		
 	}
 	
 	.signup-comp h3{
 		font-size: 2rem;
+		margin-bottom: 4em;
 	}
 	
 	.signup-comp a{
+		
 		text-decoration: none;
 		color: white;
 		margin-bottom: 1em;
