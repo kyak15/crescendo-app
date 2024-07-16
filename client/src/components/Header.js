@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
+import { AuthContext } from '../UserContext'
 
 
-export default function Header(props){
+export default function Header(){
+    
+    const { userName,  setUserName } = useContext(AuthContext);
+
+    const [activeSearch, setActiveSearch] = React.useState(false)
+
     const navigate = useNavigate()
 
     async function handleLogout(){
@@ -22,17 +28,25 @@ export default function Header(props){
 
     }
 
-
-
     return(
         <div className='header-layout'>
+
             <NavLink className='logo-header-layout' to='/'>Crescendo</NavLink>
             <NavLink className='links-header-layout' to='albums'>Albums</NavLink>
-            {props.user?<NavLink className='links-header-layout' to='activity'>Activity</NavLink>:
-            <NavLink className='links-header-layout' to='signup'>Sign Up</NavLink>}
-            {props.user?<NavLink className='links-header-layout' to={`/user/${props.user}`} >Profile</NavLink>:
-            <NavLink className='links-header-layout' to='login'>Log In</NavLink>}
-            {props.user?<NavLink onClick={handleLogout} className='links-header-layout'>Logout</NavLink>:null}
+            {userName
+                ?null
+                :<NavLink className='links-header-layout' to='/signup'>Sign Up</NavLink>
+            }
+
+            {userName
+            ?<NavLink className='links-header-layout' to={`/user/${userName}`}>Profile</NavLink>
+            :<NavLink className='links-header-layout' to='/login'>Log In</NavLink>
+            }
+
+            {userName
+            ?<NavLink onClick={handleLogout} className='links-header-layout'>Logout</NavLink>
+            :null
+            }
         </div>
     )
 }
