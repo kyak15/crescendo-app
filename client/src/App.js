@@ -28,6 +28,7 @@ export default function App(){
               <Route path='signup' element={<SignUp/>}/>
               <Route path='login' element={<LogIn/>} />
               <Route path='albums' element={<AlbumsPage/>}/>
+              <Route path='activity/' element={<h1>Test</h1>}/>
               <Route path='albums/:album' element={<LoneAlbumPage/>} />
             <Route element={<ProfileHeader />}>
               <Route index path='user/:user/' element={<Profile/>}/> 
