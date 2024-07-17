@@ -11,12 +11,14 @@ import { addFavorite,
     deleteListenList, 
     deleteReview, 
     changeReview,
+    
 
     } from './controllers/userController.js';
 
-import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews } from './controllers/clientController.js';
+import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews } from './controllers/clientController.js';
 
 import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlbums, getAlbumPageSearch } from './controllers/spotifyController.js';
+
 
 const app = express()
 app.use(cors({
@@ -56,6 +58,7 @@ app.delete('/api/deletefavorite/', restricted, deleteFavorite)
 app.delete('/api/deletelistenlist/', restricted, deleteListenList)
 app.delete('/api/deletereview/', restricted, deleteReview)
 app.patch('/api/changereview/', restricted, changeReview)
+//app.post('/api/addfollower/', tryCatch(restricted), tryCatch(addFollower))
 
 
 //CLIENT CONTROLLERS 
@@ -68,10 +71,7 @@ app.get('/api/getlonealbum/:album', getLoneAlbum)
 app.get('/api/album/:album/reviews', getAlbumReviews)
 app.get('/api/getusersearch/:search', getAlbumPageSearch)
 app.get('/api/gethomealbums/', getHomeAlbums)
-
-
-
-
+app.get('/api/getrecentreviews/', getRecentReviews)
 
 
 app.listen(port, ()=>{
