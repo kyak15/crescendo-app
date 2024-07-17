@@ -12,7 +12,7 @@ import LoneAlbumPage from './pages/LoneAlbumPage/LoneAlbumPage';
 import ProfileHeader from './components/ProfileHeader';
 import UserReviewPage from './pages/profile/UserReviewPage';
 import UserFollowers from './pages/profile/UserFollowers';
-
+import ActivityPage from './pages/ActivityPage/ActivityPage';
 
 
 
@@ -28,7 +28,7 @@ export default function App(){
               <Route path='signup' element={<SignUp/>}/>
               <Route path='login' element={<LogIn/>} />
               <Route path='albums' element={<AlbumsPage/>}/>
-              <Route path='activity/' element={<h1>Test</h1>}/>
+              <Route path='activity/' element={<ActivityPage/>}/>
               <Route path='albums/:album' element={<LoneAlbumPage/>} />
             <Route element={<ProfileHeader />}>
               <Route index path='user/:user/' element={<Profile/>}/> 
