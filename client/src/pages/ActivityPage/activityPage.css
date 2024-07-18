@@ -1,5 +1,172 @@
 .activity-page-container{
-    border: 3px solid red;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ap-header-container{
+    width: 100%;
+    height: 20%;
+}
+
+.ap-reviews-container{
+    padding-top: .5em;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.ap-single-review{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #8d9cd3;  
+}
+
+
+.ap-reviews-image{
+    width: 30%;
+    padding-bottom: .5em;
+    padding-top: .5em;
+}
+    
+
+
+.ap-single-review img{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.ap-single-review img:hover{
+    width: 100%;
+    border: 1px solid #c66375;
+    
+}
+
+.ap-reviews-info{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 60%;
+    word-break: break-all;
+    padding-bottom: .5em;
+}
+
+.ap-reviews-info a{
+    text-decoration: none;
+    color: white;
+    font-size: .7rem;
+}
+
+.ap-reviews-info a:hover{
+    text-decoration: none;
+    color: #c66375;
+    font-size: .7rem;
+}
+
+
+h4{
+    font-size: .7rem;
+}
+
+p{
+    font-size: .6rem;
+}
+
+h3{
+    font-size: .9rem;
+}
+
+
+@media (min-width: 769px){
+    .activity-page-container{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .ap-header-container{
+        width: 100%;
+        height: 20%;
+    }
+    
+    .ap-reviews-container{
+        padding-top: 1em;
+        display: flex;
+        flex-direction: column;
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+    
+    .ap-single-review{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        border-bottom: 3px solid #8d9cd3;  
+    }
+    
+    
+    .ap-reviews-image{
+        width: 15%;
+        padding-bottom: .5em;
+        padding-top: .5em;
+    }
+        
+    
+    
+    .ap-single-review img{
+        width: 100%;
+        border: 3px solid black;
+    }
+    
+    .ap-single-review img:hover{
+        width: 100%;
+        border: 3px solid #c66375;
+    }
+
+ 
+    
+    
+    
+    .ap-reviews-info{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        width: 60%;
+        word-break: break-all;
+        padding-bottom: .5em;
+    }
+    
+    .ap-reviews-info a{
+        text-decoration: none;
+        color: white;
+        font-size: 1.8rem;
+    }
+    
+    .ap-reviews-info a:hover{
+        text-decoration: none;
+        color: #c66375;
+        font-size: 1.8rem;
+    }
+    
+    
+    h4{
+        font-size: 1.8rem;
+    }
+    
+    p{
+        font-size: 1.4rem;
+    }
+    
+    h3{
+        font-size: 2rem;
+    }
+
 }

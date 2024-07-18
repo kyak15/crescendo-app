@@ -33,6 +33,7 @@ export default function Header(){
 
             <NavLink className='logo-header-layout' to='/'>Crescendo</NavLink>
             <NavLink className='links-header-layout' to='albums'>Albums</NavLink>
+            <NavLink className='links-header-layout' to='activity/'>Activity</NavLink>
             {userName
                 ?null
                 :<NavLink className='links-header-layout' to='/signup'>Sign Up</NavLink>

@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {NavLink} from 'react-router-dom'
 import { AuthContext } from '../../UserContext';
 import activityPage from './activityPage.css'
 
@@ -6,59 +7,86 @@ export default function ActivityPage(){
 
     const { userName,  setUserName } = useContext(AuthContext);
     const [reviews, setReviews] = React.useState({
-
+        recent:false
     })
 
     //Default function call is to get the recent reviews from the database
     React.useEffect(()=>{
         async function getRecentReviews(){
 
-            let followerRecentData;
-            const recentReviewRequest = await fetch(`http://localhost:8000/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                  "Content-Type": "application/json"
-              },
-            })
-
-            const recentReviewData = await recentReviewRequest.json()
-
-            
-            //! IMPLEMENT RETREIVEING THE USER'S FOLLOWING RECENT REVIEWS
-            //if(userName !== null){
-            //    const recentFollowingRequest = await fetch(`http://localhost:8000/api/${id}/listenlist/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
-            //        method: 'GET',
-            //        credentials: 'include',
-            //        headers: {
-            //          "Content-Type": "application/json"
-            //      },
-            //    })
-            //    followerRecentProcess = await recentFollowingRequest.json()
-            //}else{
-            //    followerRecentData = false
-            //}
-            
-            //* TRIGGERING THIS MEANS DATABASE CONNECTION ISSUE 
-            //! the use of null in the follower data might cause issues if the user has not following bc we might be getting null back from an empty returned sql query 
-            if (recentReviewData.status !==200){
-                setReviews(null)
-            }else{
-                setReviews({
-                    recent: recentReviewData.rows,
+            try {
+                let followerRecentData;
+                const recentReviewRequest = await fetch(`http://localhost:8000/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                      "Content-Type": "application/json"
+                  },
                 })
+    
+                const recentReviewProcess = await recentReviewRequest.json()
+                //! IMPLEMENT RETREIVEING THE USER'S FOLLOWING RECENT REVIEWS
+    
+    
+                //? MOST LIKELY need to set reviews to a boolean or null for the following:
+                    //? false if reviews is empty
+                    //? null if connection issue??
+                
+            
+                //console.log(recentReviewProcess)
+                
+                if (recentReviewProcess.status !==200){
+                    setReviews(null)
+                }else{
+                    setReviews({
+                        recent: recentReviewProcess.recentReviewData.reverse()
+                    })
+                }
+            // for failure to reach backend server
+            } catch (error) {
+                console.log('failure to reach backend')
             }
         }
+         
         getRecentReviews()
-
-        // reviews.recent gives us the list of review objects from the SQL calls 
         console.log(reviews.recent)
+        // reviews.recent gives us the list of review objects from the SQL calls 
+        
     },[])
+
+
+  
 
     return(
         
         <div className='activity-page-container'>
-            <h3>Recent Crescendo Reviews </h3>
+            
+            <div className='ap-header-container'>
+                <h3>Recent Crescendo Reviews</h3>
+            </div>
+
+            <div className='ap-reviews-container'>
+                {!reviews.recent?null:reviews.recent.map(item=>{
+                    return(
+                        <div className='ap-single-review'>
+                            
+                            <div className='ap-reviews-image'>
+                                <NavLink to={`/albums/${item.albumname}`}><img src={item.albumart} /></NavLink>
+                            </div>
+                                
+
+                            <div className='ap-reviews-info'>
+                                <h4>{item.albumname}</h4>
+                                <NavLink to={`/user/${item.username}`} >@{item.username}:</NavLink>
+                                <p>{item.rating} Stars</p>
+                                <p>{item.usertext}</p>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
+            
 
 
         </div>
