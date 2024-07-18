@@ -50,7 +50,7 @@ export default function Home(){
             <div className='home-features-container'>
                 <div className='feature-container'>
                     <FontAwesomeIcon className='icon' icon={faCheck} />
-                    <p>Keep track of every album you've ever watched</p>
+                    <p>Keep track of every album you've ever listened to</p>
                 </div>
 
                 <div className='feature-container'>
@@ -60,7 +60,7 @@ export default function Home(){
 
                 <div className='feature-container'>
                     <FontAwesomeIcon className='icon' icon={faPencil} />
-                    <p>Write reviews for your favorite (or unfavorite) albums</p>
+                    <p>Write reviews for your favorite albums</p>
                 </div>
 
                 <div className='feature-container'>
