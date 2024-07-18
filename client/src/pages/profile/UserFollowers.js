@@ -8,7 +8,7 @@ export default function UserFollowers(){
 
     return(
         <div className='user-follower-container'>
-            <h3 className='listen-title' >@{id} has 5 followers</h3>
+            <h3 className='listen-title' >@{id} has PLACEHOLDER followers</h3>
 
             <div className='follower-container'>
 

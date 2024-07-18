@@ -14,6 +14,10 @@ export default function ProfileHeader(){
                     Profile
                 </NavLink>
 
+                <NavLink to={`user/${id}/following`}>
+                    Following
+                </NavLink>
+
                 <NavLink to={`user/${id}/followers`}>
                     Followers
                 </NavLink>

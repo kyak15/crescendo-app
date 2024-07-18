@@ -69,20 +69,35 @@ export default function Profile(){
             })
         }
        getUserFavorites()
-    },[])
+    },[id])
 
 
     async function followUser(){
         
         console.log(id)
+
+        try {
+            const followRequest = await fetch(`http://localhost:8000/api/addfollower/`,{
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({id: id})})
+
+            const followData = await followRequest.json()
+
+            if(followData.status !== 201){
+                return alert('Unable to Follow User')
+            }
+
+            
+            
+        } catch (error) {
+            console.log('ERROR CONNECTING TO SERVER')
+        }
         
-        const followCall = await fetch(`http://localhost:8000/api/addfollower/`,{
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({id: id})})
+
     
     }
 
@@ -98,22 +113,19 @@ export default function Profile(){
     return(
         <div className='user-page-container'>
 
-            <div className='user-info-container'>
-                <h3 className='username'>@{id}</h3>
                 <div className='user-stats'>
+                    <h3 className='username'>@{id}</h3>
                     <p>{userData.reviewData.length} Reviews</p>
-                    {userName === id?<button>Settings</button>:
-                    <button
-                        onClick={()=> followUser()}
-                    >Follow</button>
+                    
+                    {
+                        userName === id
+                        ?<span className='profile-span'><NavLink to='settings/'>Settings</NavLink></span>
+                        :!userName
+                        ?<span className='profile-span'> <NavLink to='/signup'>Sign Up</NavLink></span>
+                        :<span className='profile-span' onClick={()=> followUser()}>Follow</span>
                     }
-                    
-                    
-                    
                 </div>
-            
-            </div>
-
+        
             
             <h3 className='section-title'>Favorite Five</h3>
             <div className='favorite-container'>

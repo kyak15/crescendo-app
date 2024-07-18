@@ -193,8 +193,32 @@ body{
     border: 1px solid black;
 }
 
+.profile-span{
+    background-color: #8d9cd3;
+    padding: .2em;
+    font-size: 1rem;
+    color: black;
+}
+
+.profile-span a{
+    color: black;
+}
+
+.profile-span:hover{
+    background-color: #74aaa7;
+    color: black;
+}
 
 
+
+.user-stats{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    align-items: center;
+    justify-content: space-around;
+}
+    
 
 
 
@@ -280,6 +304,22 @@ body{
     }
     .user-page-container{
         font-size: 1.5rem;
+    }
+
+    .profile-span{
+        background-color: #8d9cd3;
+        padding: .6em;
+        font-size: 1.2rem;
+        color: black;
+    }
+    
+    .profile-span a{
+        color: black;
+    }
+    
+    .profile-span:hover{
+        background-color: #74aaa7;
+        color: black;
     }
 }
 
