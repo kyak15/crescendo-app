@@ -31,7 +31,7 @@ export default function UserListenList(){
 
         }
         getListenList()
-    },[])
+    },[id])
 
     return(
         <div className='listen-container'>
