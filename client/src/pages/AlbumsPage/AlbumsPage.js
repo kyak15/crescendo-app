@@ -29,17 +29,13 @@ export default function AlbumsPage(){
             })
 
             const data = await dataCall.json()
-        
-
             if(data.status !==200){
                 setTrendingData([])
                 setLoading(false)
             }
             else{
-                
                 setTrendingData(data.spotData)
                 setLoading(false)
-        
             }
         }
         getTrendingData()
@@ -81,33 +77,25 @@ export default function AlbumsPage(){
             }
 
         })
-        
         setSearchData(searchElements)
-        
-
     }
-    
-    
-        
         if(loading){
             return <h1>Loading</h1>
         }
-
         else{
             return(
                 <div className='albums-page-container'>
                     <div className='title-container'>
                     
-                    <FontAwesomeIcon 
-                        className='search-icon'
-                        icon={faMagnifyingGlass}
-                        onClick={handleActiveSearch}
-                        
-                    />
+                        <FontAwesomeIcon 
+                            className='search-icon'
+                            icon={faMagnifyingGlass}
+                            onClick={handleActiveSearch}
+                        />
                         <h2 className='albums-page-title'>Trending Albums in {genre}</h2>
                         <select value={genre} onChange={e => setGenre(e.target.value)}>
                                 <option value='Indie Rock'>Indie Rock</option>
-                                <option value='Hip-Hop'>hip hop</option>
+                                <option value='Hip-Hop'>Hip Hop</option>
                                 <option value='Pop'>Pop</option>
                                 <option value='Rnb'>R&B</option>
                                 <option value='Electronic'>Electronic</option>
@@ -118,7 +106,6 @@ export default function AlbumsPage(){
                         </select>
 
                     </div>
-
                     {
                         activeSearch?
                         <div className='search-container'>
@@ -132,7 +119,6 @@ export default function AlbumsPage(){
 
                         </div>
                         :null
-                    
                     }
                     {
                         searchData && activeSearch?
