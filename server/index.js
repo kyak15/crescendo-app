@@ -11,6 +11,7 @@ import { addFavorite,
     deleteListenList, 
     deleteReview, 
     changeReview,
+    followUser,
     
 
     } from './controllers/userController.js';
@@ -58,7 +59,7 @@ app.delete('/api/deletefavorite/', restricted, deleteFavorite)
 app.delete('/api/deletelistenlist/', restricted, deleteListenList)
 app.delete('/api/deletereview/', restricted, deleteReview)
 app.patch('/api/changereview/', restricted, changeReview)
-//app.post('/api/addfollower/', tryCatch(restricted), tryCatch(addFollower))
+app.post('/api/addfollower/', restricted, followUser)
 
 
 //CLIENT CONTROLLERS 

@@ -203,5 +203,14 @@ const getUserData = async(req,res) =>{
     }
 }
 
+const followUser = async(req,res)=>{
+    try {
+        
+        
+    } catch (error) {
+        
+    }
+}
 
-export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, }
+
+export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, followUser }

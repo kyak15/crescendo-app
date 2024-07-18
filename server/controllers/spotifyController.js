@@ -191,7 +191,7 @@ const getLastFMData = async(req,res, next)=>{
     const genre = req.params.genre;
     
     try {
-        const lastFMRequest = await fetch(lastFMURL+'&tag='+genre+'&'+lastFMKey);
+        const lastFMRequest = await fetch(lastFMURL+'&tag='+genre+'&limit='+'&'+lastFMKey);
         if(!lastFMRequest.ok){
             throw new Error(`HTTP Error: Status: ${lastFMRequest.status}`)
         }
