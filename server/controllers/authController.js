@@ -108,7 +108,7 @@ const logIn = async(req,res)=>{
 
 const logOut = async(req,res)=>{
 
-    if(req.cookies){
+    if(req.cookies.token){
         res.clearCookie('token')
         return res.json({status:200})
     }
@@ -148,6 +148,7 @@ const restricted = async(req,res,next)=>{
 const isAuth = async(req,res)=>{
     console.log(`Auth check Occuring Now`)
     
+    
     if(!req.cookies || !req.cookies.token){
         console.log(`no cookie present`)
         return res.json({
@@ -155,6 +156,8 @@ const isAuth = async(req,res)=>{
             message: 'User not Auth/logged in'
         })
     }
+
+    
 
     const token = req.cookies.token
     const decodedToken = await promisify(jwt.verify)(token, secret)

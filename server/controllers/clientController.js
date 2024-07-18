@@ -4,7 +4,7 @@ const clientSecret = 'f67c5bcc171a44af94547aa6456a80ad'
 
 function getSQLFormattedDates() {
     const today = new Date();
-    
+    today.setDate(today.getDate()+1);
     // Format the current date in SQL format
     const currentDate = formatDate(today);
     
@@ -123,18 +123,10 @@ const getRecentReviews = async(req,res)=>{
 
     const dateData = getSQLFormattedDates()
 
-
-
         try {
             const recentReviewQuery = await pool.query('SELECT * FROM reviews WHERE addedDate BETWEEN $1 AND $2', [dateData.previousDate, dateData.currentDate])
             const recentReviewData = await recentReviewQuery.rows
             
-
-            //let followingReviewData;
-            //if(req.cooies.token){
-            //    // get the user's following list via sql query
-            //    // iterate through the user's following list and push each review into a variable sent to the client 
-            //}
             return res.json({
                 status: 200,
                 recentReviewData
