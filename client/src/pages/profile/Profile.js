@@ -10,17 +10,13 @@ export default function Profile(){
 
     
     const { userName, setUserName } = useContext(AuthContext);
-
-    
-    
-
     const [userData, setUserData] = React.useState({
         favData: [],
         reviewData:[],
-        listenData: []
+        listenData: [],
+        followerData: []
     })
-
-
+    
     const id = useParams().user
 
     React.useEffect(()=>{
@@ -34,12 +30,10 @@ export default function Profile(){
             })
 
             const favData = await favFiveCall.json()
-            
             if(favData.status===404){
                 return setUserData(null)
             }
-            //! NEED TO PROBABALY CREATE SOMETHING ELSE IF USER DOESNT HAVE FAV SET
-
+        
             const reviewCall = await fetch(`http://localhost:8000/api/${id}/reviews`,{
                 method: 'GET',
                 credentials: 'include',
@@ -61,20 +55,31 @@ export default function Profile(){
             
             const listenData = await listenCall.json()
 
-            
+            const followerCall = await fetch(`http://localhost:8000/api/${id}/followers/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                  "Content-Type": "application/json"
+              },
+            })
+
+            const followerRes = await followerCall.json()
+
+            const btn = <span>{}</span>
+
             setUserData({
                 favData: favData.favoriteData,
                 reviewData: reviewData.userReviews.reverse(),
-                listenData: listenData.listenListData
+                listenData: listenData.listenListData,
+                followerData: followerRes.followerData
             })
         }
        getUserFavorites()
+       
     },[id])
 
 
     async function followUser(){
-        
-        console.log(id)
 
         try {
             const followRequest = await fetch(`http://localhost:8000/api/addfollower/`,{
@@ -83,22 +88,20 @@ export default function Profile(){
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({id: id})})
+                body: JSON.stringify({userToFollow: id})})
 
             const followData = await followRequest.json()
 
-            if(followData.status !== 201){
+            if(followData.status !== 200){
                 return alert('Unable to Follow User')
             }
 
-            
+            alert(`Success! You Followed ${id}`)
+
             
         } catch (error) {
             console.log('ERROR CONNECTING TO SERVER')
         }
-        
-
-    
     }
 
     
@@ -116,14 +119,18 @@ export default function Profile(){
                 <div className='user-stats'>
                     <h3 className='username'>@{id}</h3>
                     <p>{userData.reviewData.length} Reviews</p>
-                    
+
                     {
-                        userName === id
-                        ?<span className='profile-span'><NavLink to='settings/'>Settings</NavLink></span>
-                        :!userName
+                        !userName
                         ?<span className='profile-span'> <NavLink to='/signup'>Sign Up</NavLink></span>
+                        :userName===id
+                        ?<span className='profile-span'><NavLink to='settings/'>Settings</NavLink></span>
+                        :userData.followerData.includes(userName)
+                        ?<span className='profile-span' onClick={()=> followUser()}>Unfollow</span>
                         :<span className='profile-span' onClick={()=> followUser()}>Follow</span>
                     }
+                    
+    
                 </div>
         
             
@@ -141,7 +148,7 @@ export default function Profile(){
          
                 userData.reviewData.slice(0,5).map(review=>{
                     
-                    return    <NavLink to={`/albums/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
+                    return<NavLink to={`/albums/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
             </div>
 
             <h3>{id}'s  Recent Listen List</h3>
@@ -150,7 +157,6 @@ export default function Profile(){
             
             userData.listenData.slice(0,5).map(item=>{
                 return <NavLink to={`/albums/${item.albumname}`}><img src={item.albumart}/></NavLink>})}
-
             </div>
         </div>
     )

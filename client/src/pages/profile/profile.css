@@ -219,8 +219,25 @@ body{
     justify-content: space-around;
 }
     
+.data-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 
+.settings-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mini-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 
 @media (min-width: 769px){

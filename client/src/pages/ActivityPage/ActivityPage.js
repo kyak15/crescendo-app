@@ -6,9 +6,7 @@ import activityPage from './activityPage.css'
 export default function ActivityPage(){
 
     const { userName,  setUserName } = useContext(AuthContext);
-    const [reviews, setReviews] = React.useState({
-        recent:false
-    })
+    const [reviews, setReviews] = React.useState(false)
 
     //Default function call is to get the recent reviews from the database
     React.useEffect(()=>{
@@ -33,11 +31,12 @@ export default function ActivityPage(){
                     //? null if connection issue??
                 
             
-                //console.log(recentReviewProcess)
+                console.log(recentReviewProcess)
                 
                 if (recentReviewProcess.status !==200){
                     setReviews(null)
                 }else{
+                    
                     setReviews({
                         recent: recentReviewProcess.recentReviewData.reverse()
                     })
@@ -66,7 +65,8 @@ export default function ActivityPage(){
             </div>
 
             <div className='ap-reviews-container'>
-                {!reviews.recent?null:reviews.recent.map(item=>{
+                {reviews === false?<h3>Loading</h3>
+                :reviews===null?<h3>Error Retrieving Reviews</h3>:reviews.recent.map(item=>{
                     return(
                         <div className='ap-single-review'>
                             
