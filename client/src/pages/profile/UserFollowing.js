@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams, NavLink } from 'react-router-dom'
 
-export default function UserFollowers(){
+export default function UserFollowing(){
     
     const [followers, setFollowers] = React.useState(false)
 

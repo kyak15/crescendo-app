@@ -12,7 +12,10 @@ import LoneAlbumPage from './pages/LoneAlbumPage/LoneAlbumPage';
 import ProfileHeader from './components/ProfileHeader';
 import UserReviewPage from './pages/profile/UserReviewPage';
 import UserFollowers from './pages/profile/UserFollowers';
+import UserFollowing from './pages/profile/UserFollowing';
+import UserSettings from './pages/profile/UserSettings';
 import ActivityPage from './pages/ActivityPage/ActivityPage';
+
 
 
 
@@ -34,7 +37,9 @@ export default function App(){
               <Route index path='user/:user/' element={<Profile/>}/> 
               <Route path='user/:user/reviews' element={<UserReviewPage/>}/>
               <Route path='user/:user/listenlist' element={<UserListenList/>}/>
-              <Route path='user/:user/followers' element={<UserFollowers/>}/>          
+              <Route path='user/:user/settings/' element={<UserSettings/>}/>
+              <Route path='user/:user/followers' element={<UserFollowers/>}/>   
+              <Route path='user/:user/following' element={<UserFollowing/>}/>          
             </Route>
           </Route>
         
