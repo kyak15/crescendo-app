@@ -139,5 +139,25 @@ const getRecentReviews = async(req,res)=>{
     }
 }
 
+const getUserFollowers = async(req,res)=>{
+    try {
+        const userName = res.locals.user
+        const followerQuery = await pool.query('SELECT (followerUserName) FROM Following WHERE username = $1', [userName])
+        const followerData = await followerQuery.rows
+        
+        return res.json({
+            status: 200,
+            followerData
+        })
+        
+    } catch (error) {
+        return res.json({
+            status: 500,
+            message: 'FAILURE TO CONNECT TO DATABASE'
+        })
+    }
+}
 
-export { getUserFavoriteFive, getUserReviews, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews}
+
+
+export { getUserFavoriteFive, getUserReviews, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews, getUserFollowers}

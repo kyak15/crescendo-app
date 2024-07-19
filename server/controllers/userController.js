@@ -188,12 +188,16 @@ const getUserData = async(req,res) =>{
         const favFiveData = await pool.query('SELECT * FROM FavFive WHERE userName = $1', [userName])
         const listenListData = await pool.query('SELECT * FROM ListenList WHERE userName = $1', [userName])
         const reviewData = await pool.query('SELECT * FROM Reviews WHERE userName = $1', [userName])
+        const followingData = await pool.query('SELECT * FROM Following WHERE followerUserName = $1', [userName])
+        const followerData = await pool.query('SELECT * FROM Following WHERE username = $1',[userName])
     
         return res.json({
             status: 200,
             favFiveData,
             listenListData,
-            reviewData
+            reviewData,
+            followingData,
+            followerData
         })
     } catch (error) {
         return res.json({
@@ -205,10 +209,20 @@ const getUserData = async(req,res) =>{
 
 const followUser = async(req,res)=>{
     try {
+        const userName = res.locals.user
+        const {userToFollow} = req.body
+        const followQuery =  await pool.query('INSERT INTO Following (userName, followerUserName) VALUES($1, $2)', [userToFollow, userName])
         
-        
+        return res.json({
+            status: 201,
+            message: 'Successful Follow Request'
+        })
     } catch (error) {
-        
+        console.log(error)
+        return res.json({
+            status: 500,
+            message: 'FAILURE TO CONNECT OR INSERT INTO DATABASE'
+        })
     }
 }
 
