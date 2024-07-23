@@ -226,5 +226,23 @@ const followUser = async(req,res)=>{
     }
 }
 
+const endFollow = async(req,res)=>{
+    try {
+        const userName = res.locals.user
+        const {endFollowUser} = req.body
+        const endFollowQuery = await pool.query('DELETE FROM Following where userName = $1 and followerUserName = $2 ', [endFollowUser, userName])
+        return res.json({
+            status: 201,
+            message: 'Successful Un-Follow'
+        })
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            status: 500,
+            message: 'FAILURE TO CONNECT OR DELETE FROM DATABASE'
+        })
+    }
+}
 
-export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, followUser }
+
+export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, followUser, endFollow }

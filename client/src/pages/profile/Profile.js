@@ -8,17 +8,18 @@ import { AuthContext } from '../../UserContext'
 
 export default function Profile(){
 
-    
+    const id = useParams().user
+    let buttonElement;
     const { userName, setUserName } = useContext(AuthContext);
     const [userData, setUserData] = React.useState({
         favData: [],
         reviewData:[],
         listenData: [],
-        followerData: []
+        followerData: [],
+        relationship: null
     })
     
-    const id = useParams().user
-
+    //! CREATE BETTER ROUTE ON SERVER SIDE TO RETURN ALL THE USERDATA IN 1 FUNCTION
     React.useEffect(()=>{
         async function getUserFavorites(){
             const favFiveCall = await fetch(`http://localhost:8000/api/${id}/favoritefive`,{
@@ -41,9 +42,7 @@ export default function Profile(){
                   "Content-Type": "application/json"
               },
             })
-
             const reviewData = await reviewCall.json()
-
 
             const listenCall = await fetch(`http://localhost:8000/api/${id}/listenlist`,{
                 method: 'GET',
@@ -52,7 +51,6 @@ export default function Profile(){
                   "Content-Type": "application/json"
               },
             })
-            
             const listenData = await listenCall.json()
 
             const followerCall = await fetch(`http://localhost:8000/api/${id}/followers/`,{
@@ -62,25 +60,21 @@ export default function Profile(){
                   "Content-Type": "application/json"
               },
             })
-
             const followerRes = await followerCall.json()
-
-            const btn = <span>{}</span>
 
             setUserData({
                 favData: favData.favoriteData,
                 reviewData: reviewData.userReviews.reverse(),
                 listenData: listenData.listenListData,
-                followerData: followerRes.followerData
+                followerData: followerRes.followerData,
+                relationship: followerRes.followerData.includes(userName)?true:false
             })
         }
        getUserFavorites()
-       
-    },[id])
+    },[id, userData])
 
 
     async function followUser(){
-
         try {
             const followRequest = await fetch(`http://localhost:8000/api/addfollower/`,{
                 method: 'POST',
@@ -95,15 +89,61 @@ export default function Profile(){
             if(followData.status !== 200){
                 return alert('Unable to Follow User')
             }
-
+            setUserData(prevUserData =>({
+                ...prevUserData,
+                relationship: true
+            }))
             alert(`Success! You Followed ${id}`)
-
             
         } catch (error) {
             console.log('ERROR CONNECTING TO SERVER')
         }
     }
 
+    async function unFollowUser(){
+        try {
+            const endFollowRequest = await fetch(`http://localhost:8000/api/endfollower/`,{
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({endFollowUser: id})})
+
+            const endFollowData = await endFollowRequest.json()
+
+            if(endFollowData.status !== 201){
+                return alert('Unable to Un-Follow User')
+            }
+            setUserData(prevUserData =>({
+                ...prevUserData,
+                relationship: false
+            }))
+            alert(`You Unfollowed ${id}`)
+
+            
+            
+        } catch (error) {
+            console.log('ERROR CONNECTING TO SERVER')
+        }
+    }
+
+
+    if(!userName){
+        buttonElement = <span className='profile-span'> <NavLink to='/signup'>Sign Up</NavLink></span>
+    }
+
+    else if(userName === id){
+        buttonElement = <span className='profile-span'><NavLink to='settings/'>Settings</NavLink></span>
+    }
+
+    else{
+        if(userData.relationship!== false){
+            buttonElement = <span className='profile-span' onClick={()=> unFollowUser()}>Unfollow</span>
+        }else{
+            buttonElement = <span className='profile-span' onClick={()=> followUser()}>Follow</span>
+        }
+    }
     
     
     if(userData === null){
@@ -119,18 +159,7 @@ export default function Profile(){
                 <div className='user-stats'>
                     <h3 className='username'>@{id}</h3>
                     <p>{userData.reviewData.length} Reviews</p>
-
-                    {
-                        !userName
-                        ?<span className='profile-span'> <NavLink to='/signup'>Sign Up</NavLink></span>
-                        :userName===id
-                        ?<span className='profile-span'><NavLink to='settings/'>Settings</NavLink></span>
-                        :userData.followerData.includes(userName)
-                        ?<span className='profile-span' onClick={()=> followUser()}>Unfollow</span>
-                        :<span className='profile-span' onClick={()=> followUser()}>Follow</span>
-                    }
-                    
-    
+                    {buttonElement}
                 </div>
         
             
