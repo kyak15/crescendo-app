@@ -28,7 +28,7 @@ export default function SignUp(props){
             console.log(`request data client: ${requestData}`)
 
             if(requestData.status !== 201){
-                throw new Error('Signup Failed. Please Try Again')
+                throw new Error(requestData.message)
             }
 
             navigate('/')
@@ -37,7 +37,7 @@ export default function SignUp(props){
             
             
         } catch (error) {
-            console.log(error)
+            alert(error.message)
         }
     }
 

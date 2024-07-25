@@ -31,14 +31,14 @@ export default function LogIn(){
             console.log(`requestData login: ${requestData}`)
 
             if(requestData.status !== 200){
-                throw new Error('Signup Failed. Please Try Again')
+                throw new Error(requestData.message)
             }
             //setUser(requestData.userName)
             navigate('/')
             return window.location.reload()
     
         } catch (error) {
-            console.log(error)
+            alert(error.message)
         }
     }
 

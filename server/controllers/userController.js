@@ -227,6 +227,8 @@ const followUser = async(req,res)=>{
 }
 
 const endFollow = async(req,res)=>{
+
+    //! This needs to find the followID then delete it 
     try {
         const userName = res.locals.user
         const {endFollowUser} = req.body
