@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams, NavLink } from 'react-router-dom'
+import profile from './profile.css'
 
 export default function UserFollowers(){
     
@@ -47,10 +48,10 @@ export default function UserFollowers(){
             {followers===false?<h3>Loading!</h3>
             :followers===null?<h3>Error Retrieving Followers</h3>:            
             <div className='data-container'>
-                <h3 className='listen-title' >@{id} has {followers.length} followers</h3>
+                <h3 className='listen-title' >@{id}'s Followers:</h3>
                 {followers.map(item=>{
                     return(
-                        <NavLink to={`/user/${item.followerusername}/`}>{item.followerusername}</NavLink>
+                        <NavLink to={`/user/${item}/`}>@{item}</NavLink>
                     )
                 })}
             </div>}

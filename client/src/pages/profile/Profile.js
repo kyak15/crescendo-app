@@ -65,7 +65,7 @@ export default function Profile(){
             setUserData({
                 favData: favData.favoriteData,
                 reviewData: reviewData.userReviews.reverse(),
-                listenData: listenData.listenListData,
+                listenData: listenData.listenListData.reverse(),
                 followerData: followerRes.followerData,
                 relationship: followerRes.followerData.includes(userName)?true:false
             })

@@ -9,31 +9,29 @@ export default function UserSettings(){
 
     return(
         <div className='settings-container'>
-            <div className='mini-container'>
-                <h3>Change Email:</h3>
-                <button>Change Email</button>
-            </div>
-
-            <div className='mini-container'>
-                <h3>Change UserName:</h3>
-                <button>Change UserName</button>
-            </div>
-
-            <div className='mini-container'>
-                <h3>Change Password:</h3>
-                <button>Change Password</button>
-            </div>
-
-            <div className='mini-container'>
-                <h3>Delete Account:</h3>
-                <button>Delete Account</button>
-
-            </div>
-
-
-
-
-        </div>
+            <h3>Under Construction</h3>
+            
+            //*<div className='mini-container'>
+                //*<h3>Change Email:</h3>
+                //*<button>Change Email</button>
+            //*</div>
+//*
+            //*<div className='mini-container'>
+                //*<h3>Change UserName:</h3>
+                //*<button>Change UserName</button>
+            //*</div>
+//*
+            //*<div className='mini-container'>
+                //*<h3>Change Password:</h3>
+                //*<button>Change Password</button>
+            //*</div>
+//*
+            //*<div className='mini-container'>
+                //*<h3>Delete Account:</h3>
+                //*<button>Delete Account</button>
+            //*</div>
+//*            
+        //*</div>
     )
 
 }

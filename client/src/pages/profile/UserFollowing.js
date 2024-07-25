@@ -47,10 +47,10 @@ export default function UserFollowing(){
             {followers===false?<h3>Loading!</h3>
             :followers===null?<h3>Error Retrieving Followers</h3>:            
             <div className='data-container'>
-                <h3 className='listen-title' >@{id} has {followers.length} followers</h3>
+                <h3 className='listen-title' >@{id}'s Following:</h3>
                 {followers.map(item=>{
                     return(
-                        <NavLink to={`/user/${item.followerusername}/`}>{item.followerusername}</NavLink>
+                        <NavLink to={`/user/${item}/`}>@{item}</NavLink>
                     )
                 })}
             </div>}
