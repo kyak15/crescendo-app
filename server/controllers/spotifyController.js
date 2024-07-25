@@ -31,16 +31,7 @@ const getSpotifyToken = async(req,res)=>{
   
 }
 
-
-//! Need to discuss faster API Call ?
-//! Need to discuss Calling this function only once from the list of Genres Data 
-//! Optimizing it to less than 2.5 Seconds??
 async function mapJSFunc(toke, currentValue) {
-
-    
-    
-    
-   
     
     return await fetch(
         `https://api.spotify.com/v1/search?q=${encodeURIComponent

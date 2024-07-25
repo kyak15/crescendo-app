@@ -4,7 +4,6 @@ import { promisify } from 'util';
 import pool from '../db.js';
 
 
-
 const secret = process.env.JWTSECRET || 'testsecret'
 const expires = process.env.JWTEXPIRES || 1000 * 60 * 60
 
@@ -34,11 +33,17 @@ const signUp = async(req,res)=>{
     const userNameExists = await checkUserNameExists(userName)
 
     if(emailExists){
-        throw new AppError('Email already exists! Please enter a new one', 409)
+        return res.json({
+            status: 409,
+            message: 'This Email already Exists'
+        })
         
     }
     if(userNameExists){
-        throw new AppError('User Name already exists! Please enter a new one.', 490)
+        return res.json({
+            status: 409,
+            message: 'This User Already Exists'
+        })
     }
 
     //generete new pass
@@ -75,7 +80,10 @@ const logIn = async(req,res)=>{
     const userExists = await checkEmailExists(email)
 
     if (!userExists){
-        throw new AppError('User does not exist!', 409)
+        return res.json({
+            status: 409,
+            message: 'This Username Does Not Exist!'
+        })
     }
 
     const dbSearch = await pool.query('SELECT * FROM users WHERE email = $1', [email])
@@ -83,7 +91,10 @@ const logIn = async(req,res)=>{
     const passTest = await bcrypt.compare(password, dbPass)
 
     if(!passTest){
-        throw new AppError('Invalid Password', 401)
+        return res.json({
+            status: 401,
+            message: 'Invalid Password!'
+        })
     }
 
     const userName = dbSearch.rows[0].username
