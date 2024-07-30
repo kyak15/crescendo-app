@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    environment:
+      NODE_ENV: production
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    environment:
+      REACT_APP_API_URL: http://server:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+      
+
+volumes:
+  db-data:
