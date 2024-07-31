@@ -1,6 +1,5 @@
 import pool from '../db.js'
-const clientID = 'ec6970aaf81e40b988e933b770cb88d5'
-const clientSecret = 'f67c5bcc171a44af94547aa6456a80ad'
+
 
 function getSQLFormattedDates() {
     const today = new Date();

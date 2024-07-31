@@ -104,7 +104,7 @@ const logIn = async(req,res)=>{
 
     res.cookie('token', token,{
         httpOnly: true,
-        secure: false, //!this should be changed to true when in production, fine as false in dev
+        secure: true, //!this should be changed to true when in production, fine as false in dev
         maxAge: 1000*60*60
     })
 

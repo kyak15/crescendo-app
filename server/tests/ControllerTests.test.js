@@ -234,4 +234,11 @@ describe('user controller testing', ()=>{
         })
     })
 
+    test('successful follow request', async()=>{
+        const req = mockRequest({
+            id: 'test23',
+            
+        })
+    })
+
 })

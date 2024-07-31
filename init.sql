@@ -1,11 +1,20 @@
---DB convention ALL CAPS
---Table convention: PascaleCase
---traits convention: camelCase
---
+-- Check if the database exists
+DO
+$$
+BEGIN
+    -- Check if the database 'crescendo' exists
+    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'crescendo') THEN
+        -- Create the database
+        PERFORM dblink_exec('dbname=postgres', 'CREATE DATABASE crescendo');
+    END IF;
+END
+$$;
 
-CREATE DATABASE CRESCENDO;
+-- Connect to the 'crescendo' database to create tables
+\c crescendo
 
-CREATE TABLE Users(
+
+CREATE TABLE IF NOT EXISTS Users(
     userID SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -14,7 +23,7 @@ CREATE TABLE Users(
 
 
 
-CREATE TABLE FavFive(
+CREATE TABLE IF NOT EXISTS FavFive(
     favID SERIAL PRIMARY KEY,
     userName VARCHAR(255) REFERENCES users(userName) ON DELETE CASCADE,
     albumID VARCHAR(255) NOT NULL UNIQUE,
@@ -24,7 +33,7 @@ CREATE TABLE FavFive(
     albumArt VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE ListenList(
+CREATE TABLE IF NOT EXISTS ListenList(
     listenID SERIAL PRIMARY KEY,
     userName VARCHAR(255) REFERENCES users(userName) on DELETE CASCADE,
     albumID VARCHAR(255) NOT NULL UNIQUE,
@@ -38,7 +47,7 @@ CREATE TABLE ListenList(
 
 
 
-CREATE TABLE Reviews(
+CREATE TABLE IF NOT EXISTS Reviews(
     reviewID SERIAL PRIMARY KEY,
     userName VARCHAR(255) REFERENCES users(userName) on DELETE CASCADE,
     albumID VARCHAR(255) NOT NULL,
@@ -51,7 +60,7 @@ CREATE TABLE Reviews(
     addedDate DATE NOT NULL
 );
 
-CREATE TABLE Following(
+CREATE TABLE IF NOT EXISTS Following(
     followID SERIAL PRIMARY KEY,
     userName VARCHAR(255) REFERENCES users(username) on DELETE CASCADE,
     followerUserName VARCHAR(255) REFERENCES users(username)

@@ -1,8 +1,10 @@
-
-const clientID = 'ec6970aaf81e40b988e933b770cb88d5'
-const clientSecret = 'f67c5bcc171a44af94547aa6456a80ad'
+import fetch from 'node-fetch';
+import dotenv from 'dotenv'
+dotenv.config()
+const clientID = process.env.clientID
+const clientSecret = process.env.clientSecret
 const lastFMURL = 'https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&format=json&limit=24' 
-const lastFMKey= 'api_key=cc9731b881b69331e019c18c8a635c7e'
+const lastFMKey= process.env.lastFMKey
 
 
 const getSpotifyToken = async(req,res)=>{
