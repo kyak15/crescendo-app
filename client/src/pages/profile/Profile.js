@@ -4,7 +4,8 @@ import {useParams, NavLink} from 'react-router-dom'
 import ProfileHeader from '../../components/ProfileLayout'
 import FavoriteFive from './FavoriteFive'
 import { AuthContext } from '../../UserContext'
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function Profile(){
 
@@ -22,7 +23,7 @@ export default function Profile(){
     //! CREATE BETTER ROUTE ON SERVER SIDE TO RETURN ALL THE USERDATA IN 1 FUNCTION
     React.useEffect(()=>{
         async function getUserFavorites(){
-            const favFiveCall = await fetch(`http://localhost:8000/api/${id}/favoritefive`,{
+            const favFiveCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/favoritefive`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -35,7 +36,7 @@ export default function Profile(){
                 return setUserData(null)
             }
         
-            const reviewCall = await fetch(`http://localhost:8000/api/${id}/reviews`,{
+            const reviewCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/reviews`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -44,7 +45,7 @@ export default function Profile(){
             })
             const reviewData = await reviewCall.json()
 
-            const listenCall = await fetch(`http://localhost:8000/api/${id}/listenlist`,{
+            const listenCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/listenlist`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -53,7 +54,7 @@ export default function Profile(){
             })
             const listenData = await listenCall.json()
 
-            const followerCall = await fetch(`http://localhost:8000/api/${id}/followers/`,{
+            const followerCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/followers/`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -76,7 +77,7 @@ export default function Profile(){
 
     async function followUser(){
         try {
-            const followRequest = await fetch(`http://localhost:8000/api/addfollower/`,{
+            const followRequest = await fetch(`${process.env.REACT_APP_API_URL}/api/addfollower/`,{
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -102,7 +103,7 @@ export default function Profile(){
 
     async function unFollowUser(){
         try {
-            const endFollowRequest = await fetch(`http://localhost:8000/api/endfollower/`,{
+            const endFollowRequest = await fetch(`${process.env.REACT_APP_API_URL}/api/endfollower/`,{
                 method: 'POST',
                 credentials: 'include',
                 headers: {

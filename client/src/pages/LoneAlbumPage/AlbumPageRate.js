@@ -3,6 +3,8 @@ import lonealbum from './lonealbum.css'
 import ReviewPopup from './ReviewPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faPencil, faHeart} from '@fortawesome/free-solid-svg-icons';
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function AlbumPageRate(props){
 
@@ -25,7 +27,7 @@ export default function AlbumPageRate(props){
         }
         const finalBody = JSON.stringify(body)
         
-        const addListenCall = await fetch(`http://localhost:8000/api/addfavorite/`,{
+        const addListenCall = await fetch(`${process.env.REACT_APP_API_URL}/api/addfavorite/`,{
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -59,7 +61,7 @@ export default function AlbumPageRate(props){
             date: new Date()
         }
         const finalBody = JSON.stringify(body)
-        const addListenCall = await fetch(`http://localhost:8000/api/addlistenlist/`,{
+        const addListenCall = await fetch(`${process.env.REACT_APP_API_URL}/api/addlistenlist/`,{
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -97,7 +99,7 @@ export default function AlbumPageRate(props){
         const body = reviewSubmission
         const finalBody = JSON.stringify(body)
         
-        const insertDataCall = await fetch('http://localhost:8000/api/addreview/', {
+        const insertDataCall = await fetch(`${process.env.REACT_APP_API_URL}/api/addreview/`, {
             method: 'POST',
             credentials: 'include',
             headers: {

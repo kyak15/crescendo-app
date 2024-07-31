@@ -1,5 +1,7 @@
 import React from 'react'
 import signup from './signup.css'
+import dotenv from 'dotenv'
+dotenv.config()
 
 import { useNavigate, NavLink } from 'react-router-dom'
 
@@ -16,7 +18,7 @@ export default function SignUp(props){
     const handleSubmit = async(e)=>{
         try {
             e.preventDefault()
-            const request = await fetch('http://localhost:8000/signup', {
+            const request = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

@@ -1,5 +1,7 @@
 import React from 'react'
 import { useParams, NavLink } from 'react-router-dom'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function UserFollowing(){
     
@@ -11,7 +13,7 @@ export default function UserFollowing(){
         async function getUserFollowers(){
 
             try {
-                const followRequest = await fetch(`http://localhost:8000/api/${id}/followers/`,{
+                const followRequest = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/followers/`,{
                     method: 'GET',
                     credentials: 'include',
                     headers: {

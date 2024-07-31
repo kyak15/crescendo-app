@@ -1,6 +1,8 @@
 import React from 'react'
 import profile from './profile.css'
 import { useParams, NavLink } from 'react-router-dom'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function UserListenList(){
 
@@ -11,7 +13,7 @@ export default function UserListenList(){
 
     React.useEffect(()=>{
         async function getListenList(){
-            const listenCall = await fetch(`http://localhost:8000/api/${id}/listenlist/`,{
+            const listenCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/listenlist/`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {

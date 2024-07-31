@@ -2,6 +2,8 @@ import React from 'react';
 import lonealbum from './lonealbum.css'
 import { useParams } from 'react-router-dom';
 import AlbumComp from './AlbumComp';
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function LoneAlbumPage(){
 
@@ -14,7 +16,7 @@ export default function LoneAlbumPage(){
     React.useEffect(()=>{
         async function getAlbumData(){
 
-            const albumCall = await fetch(`http://localhost:8000/api/getlonealbum/${encodeURIComponent(id)}`,{
+            const albumCall = await fetch(`${process.env.REACT_APP_API_URL}/api/getlonealbum/${encodeURIComponent(id)}`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {

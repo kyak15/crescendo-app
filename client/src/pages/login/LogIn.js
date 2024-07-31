@@ -1,7 +1,8 @@
 import React, {useContext} from 'react'
 import signup from './signup.css'
 import { useNavigate, NavLink } from 'react-router-dom'
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function LogIn(){
 
@@ -19,7 +20,7 @@ export default function LogIn(){
     const handleSubmit = async(e)=>{
         try {
             e.preventDefault()
-            const request = await fetch('http://localhost:8000/login', {
+            const request = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
