@@ -31,7 +31,7 @@ services:
   client:
     build: ./client
     environment:
-      REACT_APP_API_URL: http://147.182.140.49:8000
+      REACT_APP_API_URL: http://147.182.140.49:8000/api
     ports:
       - "3000:3000"
     depends_on:
