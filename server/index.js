@@ -16,10 +16,10 @@ import { addFavorite,
 import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews, getUserFollowers } from './controllers/clientController.js';
 import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlbums, getAlbumPageSearch } from './controllers/spotifyController.js';
 
-
+//'http://147.182.140.49:3000'
 const app = express()
 app.use(cors({
-    origin: 'http://147.182.140.49:3000',
+    origin: '*',
     credentials: true
 
 }))
