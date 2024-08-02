@@ -7,9 +7,7 @@ import AlbumPageSignUp from './AlbumPageSignUp'
 import { AuthContext } from '../../UserContext'
 const options = { month: 'long', day: 'numeric', year: 'numeric' };
 // <p>Reviewed on: {newDate.toLocaleDateString('en-US', options)}</p>
-import dotenv from 'dotenv'
-dotenv.config()
-
+const apiURL = process.env.REACT_APP_API_URL
 export default function AlbumComp(props){
 
     const [albumReviews, setAlbumReviews] = React.useState([])
@@ -22,7 +20,7 @@ export default function AlbumComp(props){
     React.useEffect(()=>{
         async function getAlbumReviews(){
             
-            const reviewCall = await fetch(`${process.env.REACT_APP_API_URL}/api/album/${props.album.albumData.name}/reviews/`,{
+            const reviewCall = await fetch(`${apiURL}/api/album/${props.album.albumData.name}/reviews/`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {

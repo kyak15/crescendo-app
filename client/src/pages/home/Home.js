@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom';
 import home from './home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faHeart, faPencil, faStar, faBook, faUserGroup} from '@fortawesome/free-solid-svg-icons';
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function Home(){
 
@@ -12,7 +11,7 @@ export default function Home(){
 
     React.useEffect(()=>{
         async function getClassicAlbums(){
-            const albumCall = await fetch(`${process.env.REACT_APP_API_URL}/api/gethomealbums/`, {
+            const albumCall = await fetch(`${apiURL}/api/gethomealbums/`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

@@ -4,8 +4,7 @@ import profile from './profile.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar} from '@fortawesome/free-solid-svg-icons';
 const options = { month: 'long', day: 'numeric', year: 'numeric' };
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function UserReviewPage(){
 
@@ -15,7 +14,7 @@ export default function UserReviewPage(){
 
     React.useEffect(()=>{
         async function getUserReviews(){
-            const reviewCall = await fetch(`${process.env.REACT_APP_API_URL}/api/${id}/reviews/`,{
+            const reviewCall = await fetch(`${apiURL}/api/${id}/reviews/`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {

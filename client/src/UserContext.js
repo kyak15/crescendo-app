@@ -1,7 +1,6 @@
 // AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 const AuthContext = createContext();
 
@@ -11,7 +10,7 @@ const AuthProvider = ({ children }) => {
   React.useEffect(()=>{
     async function checkAuth(){
   
-        const authCheck = await fetch(`${process.env.REACT_APP_API_URL}/isauth/`, {
+        const authCheck = await fetch(`${apiURL}/isauth/`, {
           method: 'GET',
           credentials: 'include',
           headers: {

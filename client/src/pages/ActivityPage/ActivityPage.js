@@ -2,8 +2,7 @@ import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom'
 import { AuthContext } from '../../UserContext';
 import activityPage from './activityPage.css'
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function ActivityPage(){
 
@@ -16,7 +15,7 @@ export default function ActivityPage(){
 
             try {
                 let followerRecentData;
-                const recentReviewRequest = await fetch(`${process.env.REACT_APP_API_URL}/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
+                const recentReviewRequest = await fetch(`${apiURL}/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
                     method: 'GET',
                     credentials: 'include',
                     headers: {

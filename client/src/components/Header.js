@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { AuthContext } from '../UserContext'
+const apiURL = process.env.REACT_APP_API_URL
 
 
 export default function Header(){
@@ -12,7 +13,7 @@ export default function Header(){
     const navigate = useNavigate()
 
     async function handleLogout(){
-        const logCall = await fetch(`http://localhost:8000/logout/`,{
+        const logCall = await fetch(`${apiURL}/logout/`,{
             method: 'GET',
             credentials: 'include',
             headers: {

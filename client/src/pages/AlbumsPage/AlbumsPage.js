@@ -5,8 +5,7 @@ import GenreComponent from './GenreComponenet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function AlbumsPage(){
 
@@ -21,7 +20,7 @@ export default function AlbumsPage(){
     React.useEffect(()=>{
         async function getTrendingData(){
             
-            const dataCall = await fetch(`${process.env.REACT_APP_API_URL}/api/getalbumpagedata/${genre}`,{
+            const dataCall = await fetch(`${apiURL}/api/getalbumpagedata/${genre}`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -49,7 +48,7 @@ export default function AlbumsPage(){
     }
 
     async function handleSearch(){
-        const searchCall = await fetch(`${process.env.REACT_APP_API_URL}/api/getusersearch/:${userSearch}`,{
+        const searchCall = await fetch(`${apiURL}/api/getusersearch/:${userSearch}`,{
             method: 'GET',
             credentials: 'include',
             headers: {

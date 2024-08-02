@@ -1,7 +1,6 @@
 import React from 'react'
 import lonealbum from './lonealbum.css'
-import dotenv from 'dotenv'
-dotenv.config()
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function ReviewPopup(props){
 
@@ -30,7 +29,7 @@ export default function ReviewPopup(props){
         const body = reviewSubmission
         const finalBody = JSON.stringify(body)
         console.log(`final: ${finalBody}`)
-        const insertDataCall = await fetch(`${process.env.REACT_APP_API_URL}/api/addreview/`, {
+        const insertDataCall = await fetch(`${apiURL}/api/addreview/`, {
             method: 'POST',
             credentials: 'include',
             headers: {
