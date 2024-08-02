@@ -1,8 +1,7 @@
 import React from 'react'
 import signup from './signup.css'
-const apiURL = process.env.REACT_APP_API_URL
-
 import { useNavigate, NavLink } from 'react-router-dom'
+const apiURL = process.env.REACT_APP_API_URL
 
 export default function SignUp(props){
 
