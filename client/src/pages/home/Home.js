@@ -34,7 +34,7 @@ export default function Home(){
     
 
     
-    
+    console.log(apiURL)
 
     return(
         <div className='home-container'>
