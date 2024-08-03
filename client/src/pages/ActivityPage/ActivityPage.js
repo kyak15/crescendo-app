@@ -15,7 +15,7 @@ export default function ActivityPage(){
 
             try {
                 let followerRecentData;
-                const recentReviewRequest = await fetch(`${apiURL}/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
+                const recentReviewRequest = await fetch(`http://server:8000/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
                     method: 'GET',
                     credentials: 'include',
                     headers: {
