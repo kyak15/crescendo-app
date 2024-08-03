@@ -2,12 +2,13 @@ import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom'
 import { AuthContext } from '../../UserContext';
 import activityPage from './activityPage.css'
-const apiURL = process.env.REACT_APP_API_URL
+
 
 export default function ActivityPage(){
 
     const { userName,  setUserName } = useContext(AuthContext);
     const [reviews, setReviews] = React.useState(false)
+    const apiURL = process.env.REACT_APP_API_URL;
 
     //Default function call is to get the recent reviews from the database
     React.useEffect(()=>{
@@ -15,7 +16,7 @@ export default function ActivityPage(){
 
             try {
                 let followerRecentData;
-                const recentReviewRequest = await fetch(`http://147.182.140.49:8000/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
+                const recentReviewRequest = await fetch(`${apiURL}/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
                     method: 'GET',
                     credentials: 'include',
                     headers: {
