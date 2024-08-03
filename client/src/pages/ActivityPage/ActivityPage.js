@@ -15,7 +15,7 @@ export default function ActivityPage(){
 
             try {
                 let followerRecentData;
-                const recentReviewRequest = await fetch(`/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
+                const recentReviewRequest = await fetch(`${apiURL}/api/getrecentreviews/`,{ //! CREATE ACTUAL ROUTE ON THE SERVER INDEX.JS
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -25,6 +25,8 @@ export default function ActivityPage(){
     
                 const recentReviewProcess = await recentReviewRequest.json()
                 //! IMPLEMENT RETREIVEING THE USER'S FOLLOWING RECENT REVIEWS
+
+                
     
     
                 //? MOST LIKELY need to set reviews to a boolean or null for the following:
@@ -55,7 +57,7 @@ export default function ActivityPage(){
     },[])
 
 
-  
+    console.log(apiURL)
 
     return(
         
