@@ -71,10 +71,8 @@ const signUp = async(req,res)=>{
 
     res.cookie('token', token, {
         httpOnly: true,
-        secure: true, // Conditionally set secure flag
-        maxAge: 1000 * 60 * 60,
-        sameSite: 'None', // Needed for cross-origin requests
-        path: '/' // Ensure the cookie is accessible across the site
+        secure: false, //!this should be changed to true when in production, fine as false in dev
+        maxAge: 1000*60*60
     });
 
     
@@ -117,10 +115,8 @@ const logIn = async(req,res)=>{
     })        
     res.cookie('token', token, {
         httpOnly: true,
-        secure: true, // Conditionally set secure flag
-        maxAge: 1000 * 60 * 60,
-        sameSite: 'None', // Needed for cross-origin requests
-        path: '/' // Ensure the cookie is accessible across the site
+        secure: false, //!this should be changed to true when in production, fine as false in dev
+        maxAge: 1000*60*60
     });
 
 
