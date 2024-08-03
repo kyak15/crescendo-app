@@ -31,8 +31,8 @@ export default function SignUp(props){
                 throw new Error(requestData.message)
             }
 
-            navigate('/')
-            return window.location.reload()
+            return navigate('/')
+            
            
             
             

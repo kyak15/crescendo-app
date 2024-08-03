@@ -34,8 +34,8 @@ export default function LogIn(){
                 throw new Error(requestData.message)
             }
             //setUser(requestData.userName)
-            navigate('/')
-            return window.location.reload()
+            return navigate('/')
+            
     
         } catch (error) {
             alert(error.message)
