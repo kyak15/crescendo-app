@@ -60,11 +60,25 @@ const signUp = async(req,res)=>{
     })        
 
 
-    res.cookie('token', token,{
+/**
+ *     res.cookie('token', token,{
         httpOnly: true,
         secure: false, //!this should be changed to true when in production, fine as false in dev
         maxAge: 1000*60*60
     })
+ * 
+ */
+
+    res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Conditionally set secure flag
+        maxAge: 1000 * 60 * 60,
+        sameSite: 'None', // Needed for cross-origin requests
+        path: '/' // Ensure the cookie is accessible across the site
+    });
+
+    
+
     
     return res.json({
         status: 201,
@@ -101,12 +115,14 @@ const logIn = async(req,res)=>{
     const token = jwt.sign({userName: userName}, secret, {
         expiresIn: expires
     })        
-
-    res.cookie('token', token,{
+    res.cookie('token', token, {
         httpOnly: true,
-        secure: true, //!this should be changed to true when in production, fine as false in dev
-        maxAge: 1000*60*60
-    })
+        secure: process.env.NODE_ENV === 'production', // Conditionally set secure flag
+        maxAge: 1000 * 60 * 60,
+        sameSite: 'None', // Needed for cross-origin requests
+        path: '/' // Ensure the cookie is accessible across the site
+    });
+
 
     
     return res.json({
