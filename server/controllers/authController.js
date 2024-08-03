@@ -71,7 +71,7 @@ const signUp = async(req,res)=>{
 
     res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Conditionally set secure flag
+        secure: true, // Conditionally set secure flag
         maxAge: 1000 * 60 * 60,
         sameSite: 'None', // Needed for cross-origin requests
         path: '/' // Ensure the cookie is accessible across the site
@@ -117,7 +117,7 @@ const logIn = async(req,res)=>{
     })        
     res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Conditionally set secure flag
+        secure: true, // Conditionally set secure flag
         maxAge: 1000 * 60 * 60,
         sameSite: 'None', // Needed for cross-origin requests
         path: '/' // Ensure the cookie is accessible across the site
