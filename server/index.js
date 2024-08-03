@@ -19,7 +19,7 @@ import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlb
 //'http://147.182.140.49:3000'
 const app = express()
 app.use(cors({
-    origin: '*',
+    origin: 'http://147.182.140.49:3000',
     credentials: true
 
 }))
