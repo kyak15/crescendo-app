@@ -1,11 +1,12 @@
 import React, {useContext} from 'react'
 import signup from './signup.css'
 import { useNavigate, NavLink } from 'react-router-dom'
+import { AuthContext } from '../../UserContext'
 const apiRUL = process.env.REACT_APP_API_URL
 
 export default function LogIn(){
 
-    
+    const { userName,  setUserName } = useContext(AuthContext);
 
     const navigate = useNavigate()
 
@@ -33,7 +34,7 @@ export default function LogIn(){
             if(requestData.status !== 200){
                 throw new Error(requestData.message)
             }
-            setUser(requestData.userName)
+            setUserName(requestData.userName)
             return navigate('/')
             
     
