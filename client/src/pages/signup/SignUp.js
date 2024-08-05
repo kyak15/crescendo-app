@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import signup from './signup.css'
 import { useNavigate, NavLink } from 'react-router-dom'
+import { AuthContext } from '../../UserContext'
 const apiURL = process.env.REACT_APP_API_URL
 
 export default function SignUp(props){
 
     const navigate = useNavigate()
+    const { userName,  setUserName } = useContext(AuthContext);
 
     const [formData, setFormData] = React.useState({
         email:'',
@@ -31,6 +33,7 @@ export default function SignUp(props){
                 throw new Error(requestData.message)
             }
 
+            setUserName(requestData.userName)
             return navigate('/')
             
            
