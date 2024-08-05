@@ -33,7 +33,7 @@ export default function LogIn(){
             if(requestData.status !== 200){
                 throw new Error(requestData.message)
             }
-            //setUser(requestData.userName)
+            setUser(requestData.userName)
             return navigate('/')
             
     
