@@ -87,7 +87,7 @@ export default function Home(){
                         
                         return(
                             <div className='album-container'>
-                                <NavLink to={`/albums/${album.albums.items[0].name}`}><img src={album.albums.items[0].images[0].url}/></NavLink>
+                                <NavLink to={`/albums/${album.albums.items[0].artists[0].name}/${album.albums.items[0].name}`}><img src={album.albums.items[0].images[0].url}/></NavLink>
                                 <h3>{album.albums.items[0].name}</h3>
                             </div>
                         )

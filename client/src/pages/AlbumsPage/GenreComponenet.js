@@ -21,7 +21,7 @@ export default function GenreComponent(props){
         
         return(
             <div className='album-card-container'>
-                <NavLink to={item.albumName} ><img src={item.albumArt['url']}/></NavLink>
+                <NavLink to={`${item.artist}/${item.albumName}`} ><img src={item.albumArt['url']}/></NavLink>
                 <h3>{item.artist}</h3>
                 <h4>{item.albumName}</h4> 
             </div>

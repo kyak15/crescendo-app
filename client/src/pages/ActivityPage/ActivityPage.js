@@ -35,7 +35,7 @@ export default function ActivityPage(){
                     //? null if connection issue??
                 
             
-                console.log(recentReviewProcess)
+                
                 
                 if (recentReviewProcess.status !==200){
                     setReviews(null)
@@ -52,13 +52,10 @@ export default function ActivityPage(){
         }
          
         getRecentReviews()
-        console.log(reviews.recent)
         // reviews.recent gives us the list of review objects from the SQL calls 
         
     },[])
 
-
-    console.log(apiURL)
 
     return(
         
@@ -75,7 +72,7 @@ export default function ActivityPage(){
                         <div className='ap-single-review'>
                             
                             <div className='ap-reviews-image'>
-                                <NavLink to={`/albums/${item.albumname}`}><img src={item.albumart} /></NavLink>
+                                <NavLink to={`/albums/${item.artistname}/${item.albumname}`}><img src={item.albumart} /></NavLink>
                             </div>
                                 
 
@@ -83,7 +80,8 @@ export default function ActivityPage(){
                                 <h4>{item.albumname}</h4>
                                 <NavLink to={`/user/${item.username}`} >@{item.username}:</NavLink>
                                 <p>{item.rating} Stars</p>
-                                <p>{item.usertext}</p>
+                                {item.usertext.length <1?null:<p>{item.usertext}</p>}
+                                
                             </div>
                         </div>
                     )

@@ -69,7 +69,7 @@ export default function AlbumsPage(){
         const searchElements = searchCallResponse.searchData.albums.items.map(album=>{
             if(album.album_type === 'album'){
                 return(
-                    <NavLink to={album.name}>
+                    <NavLink to={`${album.artists[0].name}/${album.name}`}>
                         <div className='search-album-container'>
                             <img src={album.images[2].url}/>
                             <h3>{album.name}</h3>
@@ -80,6 +80,9 @@ export default function AlbumsPage(){
         })
         setSearchData(searchElements)
     }
+
+    
+
         if(loading){
             return <h1>Loading</h1>
         }

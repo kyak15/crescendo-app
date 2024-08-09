@@ -167,7 +167,7 @@ export default function Profile(){
             <div className='favorite-container'>
                 {userData.favData===null?<p>Loading</p>
                 :userData.favData.map(album=>{
-                    return <NavLink to={`/albums/${album.albumname}`}><img src={album.albumart}/></NavLink>
+                    return <NavLink to={`/albums/${album.artistname}/${album.albumname}`}><img src={album.albumart}/></NavLink>
                 })}
             </div>
             
@@ -177,7 +177,7 @@ export default function Profile(){
          
                 userData.reviewData.slice(0,5).map(review=>{
                     
-                    return<NavLink to={`/albums/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
+                    return<NavLink to={`/albums/${review.artistname}/${review.albumname}/`}><img src={review.albumart}/></NavLink>})}
             </div>
 
             <h3>{id}'s  Recent Listen List</h3>
@@ -185,7 +185,7 @@ export default function Profile(){
                 {userData.listenData===null?<p>Loading</p>:
             
             userData.listenData.slice(0,5).map(item=>{
-                return <NavLink to={`/albums/${item.albumname}`}><img src={item.albumart}/></NavLink>})}
+                return <NavLink to={`/albums/${item.artistname}/${item.albumname}`}><img src={item.albumart}/></NavLink>})}
             </div>
         </div>
     )

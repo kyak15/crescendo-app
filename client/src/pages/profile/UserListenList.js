@@ -42,7 +42,7 @@ export default function UserListenList(){
 
             <div className='listen-albums'>
                 {listenList!==null?listenList.map(album=>{
-                    return <NavLink to={`/albums/${album.albumname}`}><div className='listen-comp'>
+                    return <NavLink to={`/albums/${album.artistname}/${album.albumname}`}><div className='listen-comp'>
                         <img src={album.albumart}/>
 
                     </div></NavLink>

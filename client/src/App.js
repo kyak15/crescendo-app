@@ -32,7 +32,7 @@ export default function App(){
               <Route path='login' element={<LogIn/>} />
               <Route path='albums' element={<AlbumsPage/>}/>
               <Route path='activity/' element={<ActivityPage/>}/>
-              <Route path='albums/:album' element={<LoneAlbumPage/>} />
+              <Route path='albums/:artist/:album' element={<LoneAlbumPage/>} />
             <Route element={<ProfileHeader />}>
               <Route index path='user/:user/' element={<Profile/>}/> 
               <Route path='user/:user/reviews' element={<UserReviewPage/>}/>

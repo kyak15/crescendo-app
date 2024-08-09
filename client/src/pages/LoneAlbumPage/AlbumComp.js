@@ -33,7 +33,7 @@ export default function AlbumComp(props){
             if(reviewData.status!==200){
                 setAlbumReviews(null)
             }else{
-                setAlbumReviews(reviewData.data)
+                setAlbumReviews(reviewData.data.reverse())
             }
 
             
@@ -77,12 +77,13 @@ export default function AlbumComp(props){
                     
 
                     <div className='review-info'>
-                        <p>@{review.username}'s Review:</p>
+                    <NavLink to={`/user/${review.username}`} >@{review.username}:</NavLink>
                         <p>{review.rating} Stars</p>
                         
                         
+                        
                  
-                        <p>"{review.usertext}"</p>
+                        {review.usertext.length <1?null:<p>"{review.usertext}"</p>}
                     </div>
                 </div>
 

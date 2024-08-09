@@ -9,7 +9,7 @@ export default function LoneAlbumPage(){
     const [album, setAlbum] = React.useState(null)
     const [loading, setLoading] = React.useState(true)
 
-    const id = useParams().album
+    const id = useParams().album+useParams().artist
     
 
     React.useEffect(()=>{
