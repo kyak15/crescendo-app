@@ -80,7 +80,9 @@ export default function ActivityPage(){
                                 <h4>{item.albumname}</h4>
                                 <NavLink to={`/user/${item.username}`} >@{item.username}:</NavLink>
                                 
-                                <p>{item.rating % 1 === 0 ? item.rating : Math.round((item.rating * 2) / 2).toString()} Stars</p>
+                                
+                                <p>{item.rating % 1 === 0 ? item.rating.toString() : item.rating.toFixed(1)} Stars</p>
+                                
                                 {item.usertext.length <1?null:<p>"{item.usertext}"</p>}
 
                                 
