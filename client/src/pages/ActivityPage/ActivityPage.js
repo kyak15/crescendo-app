@@ -2,6 +2,9 @@ import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom'
 import { AuthContext } from '../../UserContext';
 import activityPage from './activityPage.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar} from '@fortawesome/free-solid-svg-icons';
+import { faStarHalf} from '@fortawesome/free-solid-svg-icons';
 
 
 export default function ActivityPage(){
@@ -9,6 +12,23 @@ export default function ActivityPage(){
     const { userName,  setUserName } = useContext(AuthContext);
     const [reviews, setReviews] = React.useState(false)
     const apiURL = process.env.REACT_APP_API_URL;
+
+    const FullStar = () => <FontAwesomeIcon className='rating-icon' icon={faStar} />;
+    const HalfStar = () => <FontAwesomeIcon className='rating-icon' icon={faStarHalf} />; // Replace with half-star icon if available
+
+    const renderStars = (rating) => {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        
+        return (
+            <>
+                {[...Array(fullStars)].map((_, index) => (
+                    <FullStar key={`full-${index}`} />
+                ))}
+                {hasHalfStar && <HalfStar />}
+            </>
+        );
+    };
 
     //Default function call is to get the recent reviews from the database
     React.useEffect(()=>{
@@ -79,7 +99,7 @@ export default function ActivityPage(){
                             <div className='ap-reviews-info'>
                                 <h4>{item.albumname}</h4>
                                 <NavLink to={`/user/${item.username}`} >@{item.username}:</NavLink>                        
-                                <p>{item.rating % 1 === 0 ? item.rating * 1 : item.rating} Stars</p>
+                                <p>Rating: {renderStars(item.rating)}</p>
                                 {item.usertext.length <1?null:<p>"{item.usertext}"</p>}                                                                
                             </div>
                         </div>

@@ -5,17 +5,36 @@ import AlbumPageRate from './AlbumPageRate'
 import TrackPlay from './TrackPlay'
 import AlbumPageSignUp from './AlbumPageSignUp'
 import { AuthContext } from '../../UserContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar} from '@fortawesome/free-solid-svg-icons';
+import { faStarHalf} from '@fortawesome/free-solid-svg-icons';
+
 const options = { month: 'long', day: 'numeric', year: 'numeric' };
-// <p>Reviewed on: {newDate.toLocaleDateString('en-US', options)}</p>
 const apiURL = process.env.REACT_APP_API_URL
+
 export default function AlbumComp(props){
 
     const [albumReviews, setAlbumReviews] = React.useState([])
     const {  userName,  setUserName } = useContext(AuthContext);
-
-
     const tracks = props.album.albumData.tracks.items.map(track=><p>{track.name}</p>)
     const genres = props.album.artistData.genres.slice(0,2).map(genre=><p className='genre'>{genre} </p>)
+
+    const FullStar = () => <FontAwesomeIcon className='rating-icon' icon={faStar} />;
+    const HalfStar = () => <FontAwesomeIcon className='rating-icon' icon={faStarHalf} />; // Replace with half-star icon if available
+
+    const renderStars = (rating) => {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        
+        return (
+            <>
+                {[...Array(fullStars)].map((_, index) => (
+                    <FullStar key={`full-${index}`} />
+                ))}
+                {hasHalfStar && <HalfStar />}
+            </>
+        );
+    };
 
     React.useEffect(()=>{
         async function getAlbumReviews(){
@@ -78,11 +97,10 @@ export default function AlbumComp(props){
 
                     <div className='review-info'>
                     <NavLink to={`/user/${review.username}`} >@{review.username}:</NavLink>
-                        <p>{review.rating} Stars</p>
+                    <p>Rating: {renderStars(review.rating)}</p>
                         
                         
-                        
-                 
+    
                         {review.usertext.length <1?null:<p>"{review.usertext}"</p>}
                     </div>
                 </div>
