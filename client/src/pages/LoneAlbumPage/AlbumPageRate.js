@@ -8,10 +8,59 @@ const apiURL = process.env.REACT_APP_API_URL
 export default function AlbumPageRate(props){
 
     
+    const [hover, setHover] = React.useState(0);   // Current hovered rating
     const [reviewData, setReviewData] = React.useState({
-        rating: '',
+        rating: {},
         text:'',
     })
+
+    const renderStars = () => {
+        return [...Array(5)].map((_, index) => {
+          const fullStarValue = index + 1;
+          const halfStarValue = index + 0.5;
+    
+          return (
+            <span
+              key={index}
+              onMouseEnter={() => setHover(halfStarValue)}
+              onMouseLeave={() => setHover(0)}
+              onClick={() => setReviewData({...reviewData, rating: hover})}
+
+              
+              
+              style={{
+                cursor: 'pointer',
+                fontSize: '3rem',
+                margin: '0 0.1rem',
+                position: 'relative',
+                display: 'inline-block',
+              }}
+            >
+              {/* Half Star */}
+              <span
+                style={{
+                  color: (hover >= halfStarValue || reviewData.rating >= halfStarValue) ? '#ffc107' : '#e4e5e9',
+                  position: 'absolute',
+                  width: '50%',
+                  overflow: 'hidden',
+                }}
+                onMouseEnter={() => setHover(halfStarValue)}
+              >
+                ★
+              </span>
+              {/* Full Star */}
+              <span
+                style={{
+                  color: (hover >= fullStarValue || reviewData.rating >= fullStarValue) ? '#ffc107' : '#e4e5e9',
+                }}
+                onMouseEnter={() => setHover(fullStarValue)}
+              >
+                ★
+              </span>
+            </span>
+          );
+        });
+      };
 
     
 
@@ -135,17 +184,13 @@ export default function AlbumPageRate(props){
             <div className='popup-review-container'>
                     <form>
                         <h3>Rating:</h3>
-                            <input
-                                type='number'
-                                min={1}
-                                max={5}
-                                onChange={e=>{setReviewData({...reviewData, rating: e.target.value})}}
-
-                            />
+                        
+                        {renderStars()}
+          
                         
                         <h3 className='popup-title-review'>Review:</h3>
-                            <input
-                                type='text'
+                            <textarea
+                                
                                 onChange={e=>{setReviewData({...reviewData, text: e.target.value})}}
                                 className='review-textbox'
                             />
