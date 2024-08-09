@@ -79,8 +79,11 @@ export default function ActivityPage(){
                             <div className='ap-reviews-info'>
                                 <h4>{item.albumname}</h4>
                                 <NavLink to={`/user/${item.username}`} >@{item.username}:</NavLink>
-                                <p>{item.rating} Stars</p>
-                                {item.usertext.length <1?null:<p>{item.usertext}</p>}
+                                
+                                <p>{item.rating % 1 === 0 ? item.rating : Math.round((item.rating * 2) / 2).toString()} Stars</p>
+                                {item.usertext.length <1?null:<p>"{item.usertext}"</p>}
+
+                                
                                 
                             </div>
                         </div>
