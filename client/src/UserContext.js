@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
         }
         })
         const authData = await authCheck.json()
+        console.log(authData)
 
         if(authData.status !== 200){
             setUserName(null)   
