@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   React.useEffect(()=>{
     async function checkAuth(){
   
-        const authCheck = await fetch(`/isauth/`, {
+        const authCheck = await fetch(`${apiURL}/isauth/`, {
           method: 'GET',
           credentials: 'include',
           headers: {
