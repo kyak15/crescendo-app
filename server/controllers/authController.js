@@ -71,7 +71,7 @@ const signUp = async(req,res)=>{
 
     res.cookie('token', token, {
         httpOnly: true,
-        secure: false, //!this should be changed to true when in production, fine as false in dev
+        secure: true, //!this should be changed to true when in production, fine as false in dev
         maxAge: 1000*60*60
     });
 
@@ -115,7 +115,7 @@ const logIn = async(req,res)=>{
     })        
     res.cookie('token', token, {
         httpOnly: true,
-        secure: false, //!this should be changed to true when in production, fine as false in dev
+        secure: true, //!this should be changed to true when in production, fine as false in dev
         maxAge: 1000*60*60
     });
 
@@ -169,23 +169,12 @@ const restricted = async(req,res,next)=>{
 
 //Purpose: Check if a user has valid cookie activated and return their userName
 const isAuth = async(req,res)=>{
-    console.log(`Auth check Occuring Now`)
     
-    
-    if(!req.cookies || !req.cookies.token){
-        console.log(`no cookie present`)
-        return res.json({
-            status: 500,
-            message: 'User not Auth/logged in'
-        })
-    }
+    const authToken = req.cookies.token
+    if(!authToken) return res.json({status:500, message: 'User Not Logged In'})
 
-    
-
-    const token = req.cookies.token
-    const decodedToken = await promisify(jwt.verify)(token, secret)
+    const decodedToken = await promisify(jwt.verify)(authToken, secret)
     const userName = decodedToken.userName
-    console.log(userName)
     return res.json({
         status: 200,
         userName
