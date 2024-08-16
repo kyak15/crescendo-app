@@ -18,7 +18,6 @@ import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlb
 import dotenv from 'dotenv'
 dotenv.config()
 
-//'http://147.182.140.49:3000'
 const app = express()
 app.use(cors({
     origin: 'http://147.182.140.49:3000',
@@ -26,6 +25,7 @@ app.use(cors({
 }))
 
 const port = 8000
+
 
 app.use(express.json())
 app.use(cookieParser())
@@ -41,8 +41,8 @@ app.get('/isauth', isAuth)
 app.post('/api/addfavorite/', restricted, addFavorite)
 app.post('/api/addlistenlist/', restricted, addListenList)
 app.post('/api/addreview/', restricted, addReview)
-app.delete('/api/deletefavorite/', restricted, deleteFavorite)
-app.delete('/api/deletelistenlist/', restricted, deleteListenList)
+app.delete('/api/deletefavorite/:album/', restricted, deleteFavorite)
+app.delete('/api/deletelistenlist/:album/', restricted, deleteListenList)
 app.delete('/api/deletereview/', restricted, deleteReview)
 app.patch('/api/changereview/', restricted, changeReview)
 app.post('/api/addfollower/', restricted, followUser)
@@ -53,7 +53,7 @@ app.get('/api/:user/reviews/', checkUserExists, getUserReviews)
 app.get('/api/:user/favoritefive', checkUserExists, getUserFavoriteFive)
 app.get('/api/:user/listenlist/', checkUserExists, getUserListenList)
 app.get('/api/:user/followers/', checkUserExists, getUserFollowers)
-app.get('/api/:user/following/', checkUserExists, getUserFollowing)
+app.get('/api/:user/following', checkUserExists, getUserFollowing)
 app.get('/api/getalbumpagedata/:genre', getLastFMData, getSpotifyAlbums)
 app.get('/api/usersearchalbum/', getUserSearch)
 app.get('/api/getlonealbum/:album', getLoneAlbum)

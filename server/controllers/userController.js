@@ -102,7 +102,7 @@ const deleteFavorite = async(req,res)=>{
 
     try {
         const userName = res.locals.user 
-        const {albumName} = req.body
+        const albumName = req.params.album
         const deleteCall = await pool.query('DELETE from FavFive WHERE userName = $1 and albumName = $2', [userName, albumName])
 
         return res.json({
@@ -124,9 +124,9 @@ const deleteFavorite = async(req,res)=>{
 const deleteListenList = async(req,res)=>{
     try {
         const userName = res.locals.user
-        const {albumName} = req.body
+        const albumName = req.params.album
         const deleteSearch = await pool.query('DELETE FROM ListenList WHERE userName = $1 AND albumName = $2', [userName, albumName])
-    
+        
         return res.json({
             status: 201,
             message:'album removed from listen list'
