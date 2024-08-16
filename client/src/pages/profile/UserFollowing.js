@@ -26,7 +26,7 @@ export default function UserFollowing(){
                     setFollowers(null)
                 }else{
                     console.log(followData.followingData)
-                    setFollowers(followData.followingrData)
+                    setFollowers(followData.followingData)
                 }
 
             
