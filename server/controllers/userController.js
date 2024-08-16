@@ -1,4 +1,18 @@
+import e from 'express'
 import pool from '../db.js'
+import bcrypt from 'bcrypt'
+
+const checkUserExists = async(user) =>{
+    
+    const userName = user
+    const userNameCheck = await pool.query('SELECT * FROM users WHERE userName = $1',[userName])
+    const userNameData = userNameCheck.rows //* Sets the var to the information from SQL injection
+    
+    if(userNameData.length < 1){
+        return false
+    }
+    return true
+}
 
 
 const addFavorite = async(req,res)=>{
@@ -247,4 +261,99 @@ const endFollow = async(req,res)=>{
 }
 
 
-export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, followUser, endFollow }
+const changeEmail = async(req,res)=>{
+    try {
+        const { oldEmail, newEmail } = req.body
+        const userName = res.locals.user
+        const verifyEmailQuery = await pool.query('SELECT email from users where username = $1', [userName])
+        const verifyEmailData = verifyEmailQuery.rows[0].email
+
+        if(oldEmail !== verifyEmailData){
+            return res.json({
+                status: 409,
+                message: 'Email Does Not Exist'
+            })
+        }
+
+        const newEmailQuery = await pool.query('UPDATE users SET email = $1 WHERE username = $2', [newEmail, userName])
+        return res.json({
+            status: 200,
+            message: "Succesfully Changed Email"
+        })
+         
+    } catch (error) {
+        return res.json({
+            status: 500,
+            message: 'FAILURE TO CONNECT OR CHANGE FROM DATABASE'
+        })
+        
+    }
+}
+
+const changePassword = async(req,res)=>{
+    try {
+        const {oldPassword, newPassword} = req.body
+        const userName = res.locals.user
+        const dbSearch = await pool.query('SELECT * FROM users WHERE userName = $1', [userName])
+        const dbPass = dbSearch.rows[0].password
+        const passTest = await bcrypt.compare(oldPassword, dbPass)
+        
+    
+        if(!passTest){
+            return res.json({
+                status: 401,
+                message: 'Invalid Password!'
+            })
+        }
+        
+        const saltRound = 12
+        const salt = await bcrypt.genSalt(saltRound)
+        const bcryptPassword = await bcrypt.hash(newPassword, salt)
+        const passQuery = await pool.query('UPDATE users SET password = $1 WHERE username = $2', [bcryptPassword, userName])
+        return res.json({
+            status: 200,
+            message: 'Succesfully Changed Password!'
+        })
+
+        
+    } catch (error) {
+        return res.json({
+            status: 500,
+            message: error.message
+        })
+        
+    }
+}
+
+const deleteAccount = async(req,res)=>{
+    try {
+        const {password} = req.body
+        const userName = res.locals.user
+        const dbSearch = await pool.query('SELECT * FROM users WHERE userName = $1', [userName])
+        const dbPass = dbSearch.rows[0].password
+        const passTest = await bcrypt.compare(password, dbPass)
+        
+        if(!passTest){
+            return res.json({
+                status: 401,
+                message: 'Invalid Password!'
+            })
+        }
+
+        const deleteQuery = await pool.query('DELETE FROM users where userName = $1', [userName])
+        if(req.cookies.token){
+            res.clearCookie('token')
+            return res.json({status:200})
+        }
+
+
+        
+    } catch (error) {
+        return res.json({
+            status: 500,
+            message: error.message
+        })
+    }
+}
+
+export {addFavorite, addListenList, addReview, deleteFavorite, deleteListenList, deleteReview, changeReview, getUserData, followUser, endFollow, changeEmail, changePassword, deleteAccount }
