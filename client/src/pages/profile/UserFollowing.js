@@ -12,7 +12,7 @@ export default function UserFollowing(){
         async function getUserFollowers(){
 
             try {
-                const followRequest = await fetch(`${apiURL}/api/${id}/followers/`,{
+                const followRequest = await fetch(`${apiURL}/api/${id}/following/`,{
                     method: 'GET',
                     credentials: 'include',
                     headers: {
