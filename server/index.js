@@ -19,27 +19,13 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 //'http://147.182.140.49:3000'
-console.log(process.env.CORS_URL)
 const app = express()
 app.use(cors({
-    origin: process.env.CORS_URL,
+    origin: 'http://147.182.140.49:3000',
     credentials: true
 }))
 
 const port = 8000
-
-app.use(session({
-    name: 'sesh',
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.cookieSecret || 'testSecret',
-    cookie:{
-        maxAge: 1000 * 60 * 60,
-        sameSite: "lax",
-        secure: true,          
-        httpOnly: true 
-    },  
-}))
 
 app.use(express.json())
 app.use(cookieParser())
