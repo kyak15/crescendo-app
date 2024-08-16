@@ -123,7 +123,7 @@ const getRecentReviews = async(req,res)=>{
     const dateData = getSQLFormattedDates()
 
         try {
-            const recentReviewQuery = await pool.query('SELECT * FROM reviews WHERE addedDate BETWEEN $1 AND $2', [dateData.previousDate, dateData.currentDate])
+            const recentReviewQuery = await pool.query('SELECT * FROM reviews;')
             const recentReviewData = await recentReviewQuery.rows
             
             return res.json({
