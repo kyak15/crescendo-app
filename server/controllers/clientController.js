@@ -140,7 +140,7 @@ const getRecentReviews = async(req,res)=>{
 
 const getUserFollowers = async(req,res)=>{
     try {
-        const userName = res.locals.user
+        const userName = req.params.user
         const followerQuery = await pool.query('SELECT (followerUserName) FROM Following WHERE username = $1', [userName])
         const followerRows = await followerQuery.rows
         const followerData = followerRows.map(user=>{
@@ -163,7 +163,7 @@ const getUserFollowers = async(req,res)=>{
 
 const getUserFollowing = async(req,res)=>{
     try {
-        const userName = res.locals.user
+        const userName = req.params.user
         const followingQuery = await pool.query('SELECT (userName) FROM Following WHERE followerUserName = $1', [userName])
         const followingRows = await followingQuery.rows
         const followingData = followingRows.map(user=>{
