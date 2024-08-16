@@ -228,17 +228,26 @@ body{
 }
 
 
+
 .settings-container{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .mini-container{
+    margin-top: 1.5em;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+.mini-container textarea{
+    width: 12em;
+    height: 1.2em;
+    margin-bottom: 1.2em;
 }
 
 /*USER FOLLOW PAGE*/
