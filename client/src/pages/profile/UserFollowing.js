@@ -25,8 +25,8 @@ export default function UserFollowing(){
                 if(followData.status !== 200){
                     setFollowers(null)
                 }else{
-                    console.log(followData.followerData)
-                    setFollowers(followData.followerData)
+                    console.log(followData.followingData)
+                    setFollowers(followData.followingrData)
                 }
 
             
