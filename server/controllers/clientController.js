@@ -165,7 +165,11 @@ const getUserFollowing = async(req,res)=>{
     try {
         const userName = res.locals.user
         const followingQuery = await pool.query('SELECT (username) FROM Following WHERE followerUserName = $1', [userName])
-        const followingData = followingQuery.rows[0].map(user=>{return user.username})
+        const followingRows = await followingQuery.rows
+        const followingData = followingRows.map(user=>{
+            return user.username
+        })
+        
         return res.json({
             status: 200,
             followingData
