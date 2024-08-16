@@ -13,15 +13,17 @@ import { addFavorite,
     followUser,
     endFollow,
     } from './controllers/userController.js';
-import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews, getUserFollowers } from './controllers/clientController.js';
+import { getUserReviews, getUserFavoriteFive, checkUserExists, getUserListenList, getAlbumReviews, getRecentReviews, getUserFollowers, getUserFollowing } from './controllers/clientController.js';
 import { getLastFMData, getSpotifyAlbums, getUserSearch, getLoneAlbum,getHomeAlbums, getAlbumPageSearch } from './controllers/spotifyController.js';
+import dotenv from 'dotenv'
+dotenv.config()
 
 //'http://147.182.140.49:3000'
+console.log(process.env.CORS_URL)
 const app = express()
 app.use(cors({
-    origin: 'http://147.182.140.49:3000',
+    origin: process.env.CORS_URL,
     credentials: true
-
 }))
 
 const port = 8000
@@ -65,6 +67,7 @@ app.get('/api/:user/reviews/', checkUserExists, getUserReviews)
 app.get('/api/:user/favoritefive', checkUserExists, getUserFavoriteFive)
 app.get('/api/:user/listenlist/', checkUserExists, getUserListenList)
 app.get('/api/:user/followers/', checkUserExists, getUserFollowers)
+app.get('/api/:user/following', checkUserExists, getUserFollowing)
 app.get('/api/getalbumpagedata/:genre', getLastFMData, getSpotifyAlbums)
 app.get('/api/usersearchalbum/', getUserSearch)
 app.get('/api/getlonealbum/:album', getLoneAlbum)
