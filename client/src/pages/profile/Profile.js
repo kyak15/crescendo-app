@@ -86,14 +86,14 @@ export default function Profile(){
 
             const followData = await followRequest.json()
 
-            if(followData.status !== 200){
+            if(followData.status !== 201){
                 return alert('Unable to Follow User')
             }
             setUserData(prevUserData =>({
                 ...prevUserData,
                 relationship: true
             }))
-            alert(`Success! You Followed ${id}`)
+            return alert(`Success! You Followed ${id}`)
             
         } catch (error) {
             console.log('ERROR CONNECTING TO SERVER')

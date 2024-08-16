@@ -6,30 +6,35 @@ const apiURL = process.env.REACT_APP_API_URL
 export default function UserListenList(){
 
     const id = useParams().user
-
-    const [listenList, setListenList] = React.useState([])
+    const [listenList, setListenList] = React.useState([false])
+    
 
 
     React.useEffect(()=>{
+        
         async function getListenList(){
-            const listenCall = await fetch(`${apiURL}/api/${id}/listenlist/`,{
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                  "Content-Type": "application/json"
-              },
-            })
 
-            const listenData = await listenCall.json()
-            
-            if(listenData.status!==200){
-                setListenList(null)
+            try {
+                const listenCall = await fetch(`${apiURL}/api/${id}/listenlist/`,{
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                      "Content-Type": "application/json"
+                  },
+                })
+    
+                const listenData = await listenCall.json()
+                
+                if(listenData.status!==200){
+                    setListenList(null)
+                }
+    
+                setListenList(listenData.listenListData.reverse())
+                
+            } catch (error) {
+                console.log('Failure Reaching BE')
+                
             }
-
-            setListenList(listenData.listenListData.reverse())
-
-            
-
         }
         getListenList()
     },[id])

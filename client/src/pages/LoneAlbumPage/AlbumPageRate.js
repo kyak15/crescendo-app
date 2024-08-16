@@ -1,18 +1,70 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { useParams } from 'react-router-dom'
 import lonealbum from './lonealbum.css'
 import ReviewPopup from './ReviewPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faPencil, faHeart} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPencil, faHeart, faX} from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../../UserContext'
 const apiURL = process.env.REACT_APP_API_URL
 
 export default function AlbumPageRate(props){
 
-    
+    const { userName, setUserName } = useContext(AuthContext);    
+    const id = useParams().album
+
     const [hover, setHover] = React.useState(0);   // Current hovered rating
     const [reviewData, setReviewData] = React.useState({
         rating: {},
         text:'',
     })
+    const [userAlbumsExists, setUserAlbumsExist] = React.useState({
+      listenList: false,
+      favfive: false
+    }) 
+
+
+
+    React.useEffect(()=>{
+        async function checkAlbumExists(){
+          try {
+            const listenRequest = await fetch(`${apiURL}/api/${userName}/listenlist/`,{
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                "Content-Type": "application/json"
+              },
+            })
+
+            const favRequest = await fetch(`${apiURL}/api/${userName}/favoritefive`,{
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                "Content-Type": "application/json"
+            },
+          })
+
+            const favData = await favRequest.json()
+            const listenData = await listenRequest.json()    
+
+            if(listenData.status !== 200 || favData.status !== 200){
+              throw new Error('Failure Reaching BE!')
+            }
+
+            const listenExists = listenData.listenListData.some(album => album.albumname === id);
+            const favExists = favData.favoriteData.some(album=> album.albumname === id);
+            setUserAlbumsExist({listenList:listenExists, favfive: favExists})
+            
+            
+            
+          } catch (error) {
+            console.log(error.message)
+            setUserAlbumsExist(null) 
+          }
+        }
+        checkAlbumExists()
+    },[userAlbumsExists])
+
+    
 
     const renderStars = () => {
         return [...Array(5)].map((_, index) => {
@@ -26,8 +78,6 @@ export default function AlbumPageRate(props){
               onMouseLeave={() => setHover(0)}
               onClick={() => setReviewData({...reviewData, rating: hover})}
 
-              
-              
               style={{
                 cursor: 'pointer',
                 fontSize: '3rem',
@@ -96,6 +146,54 @@ export default function AlbumPageRate(props){
 
           alert('Album Added to Fav Five!')
 
+    }
+
+    async function handleRemoveFavSubmit(e){
+      e.preventDefault()
+      try {
+        const removeRequest = await fetch(`${apiURL}/api/deletefavorite/${id}/`,{
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+        }
+        })
+        const removeData = await removeRequest.json()
+
+        if(removeData.status !== 201){
+          throw new Error('Error Removing Album from Database')
+        }
+        setUserAlbumsExist({...userAlbumsExists, favfive:false})
+        return alert('Successfully Removed Album from Favorite Five!')
+        
+      } catch (error) {
+        
+      }
+    }
+
+    async function handleRemoveListenSubmit(e){
+      e.preventDefault()
+      try {
+        const removeRequest = await fetch(`${apiURL}/api/deletelistenlist/${id}/`,{
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+        }
+        })
+        
+        const removeData = await removeRequest.json()
+
+        if(removeData.status !== 201){
+          throw new Error('Failure to Remove from Listen List')
+        }
+
+        setUserAlbumsExist({...userAlbumsExists, listenList:false})
+        return alert('Successfully Removed Album from Listen List!')
+        
+      } catch (error) {
+        return alert('Failure to Remove From Listen List!')
+      }
     }
 
     async function handleSubmit(e){
@@ -173,11 +271,23 @@ export default function AlbumPageRate(props){
             <p className='rate-instruct'>Add to your FavFive, Listen List, or Leave a Review</p>    
             
             <div className='add-container'>
-                <button className='rate-button' onClick={e=>{addFavorite(e)}}><FontAwesomeIcon className='rate-icon' icon={faHeart} />Add to Fav Five</button>
+              {
+                userAlbumsExists===null?<p>Error Reaching Database; Check back Later to add to Favorite Five</p>
+                :!userAlbumsExists.favfive?<button className='rate-button' onClick={e=>{addFavorite(e)}}><FontAwesomeIcon className='rate-icon' icon={faHeart} /> Add to Fav Five</button>
+                :<button className='rate-button' onClick={e=>{handleRemoveFavSubmit(e)}}><FontAwesomeIcon className='rate-icon' icon={faX} /> Remove from Favorite Five</button>
+              }
+                
             </div>
             
             <div className='add-container'>
-                <button className='rate-button' onClick={e=>{handleSubmit(e)}}><FontAwesomeIcon className='rate-icon' icon={faPlus} />Add to Listen List</button>
+              {
+                userAlbumsExists=== null?
+                <p>Error Reaching Database; Check back Later to add to Listen List</p>
+                :
+                !userAlbumsExists.listenList?<button className='rate-button' onClick={e=>{handleSubmit(e)}}><FontAwesomeIcon className='rate-icon' icon={faPlus} /> Add to Listen List</button>
+                :<button className='rate-button' onClick={e=>{handleRemoveListenSubmit(e)}}><FontAwesomeIcon className='rate-icon' icon={faX} /> Remove from Listen List</button>
+              }
+                
             </div>
 
             <div className='add-container'>
