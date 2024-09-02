@@ -96,7 +96,6 @@ export default function ActivityPage(){
             
             <div className='ap-header-container'>
                 <h3>Recent Crescendo Reviews</h3>
-                <button onClick={()=>paginateReviews()}>Next</button>
 
             </div>
 
